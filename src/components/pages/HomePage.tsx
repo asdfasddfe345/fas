@@ -44,6 +44,8 @@ interface Feature {
   requiresAuth: boolean;
   highlight?: boolean; // Added highlight property
   gradient: string; // Added gradient property
+  accent: 'teal' | 'mint' | 'amber' | 'gold' | 'violet' | 'rose';
+  tag?: string;
 }
 
 interface HomePageProps {
@@ -196,7 +198,9 @@ export const HomePage: React.FC<HomePageProps> = ({
       icon: <Target className="w-6 h-6" />,
       requiresAuth: false,
       highlight: true, // Highlight this feature
-      gradient: 'from-blue-50 to-purple-50', // Added gradient
+      gradient: 'from-emerald-500/15 via-emerald-500/5 to-cyan-500/10',
+      accent: 'teal',
+      tag: 'Recommended',
     },
     {
       id: 'score-checker',
@@ -204,7 +208,8 @@ export const HomePage: React.FC<HomePageProps> = ({
       description: 'Get an instant ATS score with detailed analysis and improvement suggestions.',
       icon: <TrendingUp className="w-6 h-6" />,
       requiresAuth: false,
-      gradient: 'from-green-50 to-emerald-50', // Added gradient
+      gradient: 'from-emerald-400/12 via-teal-400/4 to-emerald-500/10',
+      accent: 'mint',
     },
     {
       id: 'guided-builder',
@@ -212,7 +217,8 @@ export const HomePage: React.FC<HomePageProps> = ({
       description: 'Create a professional resume from scratch with our step-by-step AI-powered builder.',
       icon: <PlusCircle className="w-6 h-6" />,
       requiresAuth: false,
-      gradient: 'from-orange-50 to-red-50', // Added gradient
+      gradient: 'from-amber-400/15 via-orange-400/6 to-amber-500/10',
+      accent: 'amber',
     },
    
     {
@@ -223,7 +229,8 @@ export const HomePage: React.FC<HomePageProps> = ({
       description: 'Generate personalized messages for networking, referrals, and cold outreach.',
       icon: <MessageCircle className="w-6 h-6" />,
       requiresAuth: true,
-      gradient: 'from-yellow-50 to-amber-50', // Added gradient
+      gradient: 'from-yellow-400/15 via-amber-300/8 to-orange-300/10',
+      accent: 'gold',
     },
     {
       id: 'mock-interview',
@@ -232,7 +239,9 @@ export const HomePage: React.FC<HomePageProps> = ({
       icon: <Sparkles className="w-6 h-6" />,
       requiresAuth: true,
       highlight: true,
-      gradient: 'from-indigo-50 to-purple-50',
+      gradient: 'from-indigo-500/15 via-purple-500/6 to-indigo-500/12',
+      accent: 'violet',
+      tag: 'Recommended',
     },
     {
       id: '/gaming',
@@ -241,10 +250,83 @@ export const HomePage: React.FC<HomePageProps> = ({
       icon: <Gamepad2 className="w-6 h-6" />,
       requiresAuth: true,
       highlight: false,
-      gradient: 'from-pink-50 to-rose-50',
+      gradient: 'from-pink-500/15 via-rose-500/6 to-fuchsia-500/12',
+      accent: 'rose',
     }
 
   ];
+
+  const accentStyles: Record<Feature['accent'], {
+    bg: string;
+    overlay: string;
+    border: string;
+    shadow: string;
+    iconBg: string;
+    iconColor: string;
+    badge: string;
+    arrow: string;
+  }> = {
+    teal: {
+      bg: 'bg-slate-900/80',
+      overlay: 'bg-[radial-gradient(circle_at_15%_20%,rgba(16,185,129,0.22),transparent_35%),radial-gradient(circle_at_85%_0%,rgba(6,182,212,0.18),transparent_32%)]',
+      border: 'border border-emerald-400/40 hover:border-emerald-300/70',
+      shadow: 'shadow-[0_25px_80px_rgba(16,185,129,0.25)]',
+      iconBg: 'bg-emerald-500/15 border border-emerald-400/40',
+      iconColor: 'text-emerald-100',
+      badge: 'bg-emerald-500 text-emerald-50',
+      arrow: 'text-emerald-200 bg-emerald-500/10'
+    },
+    mint: {
+      bg: 'bg-slate-900/80',
+      overlay: 'bg-[radial-gradient(circle_at_10%_10%,rgba(45,212,191,0.18),transparent_32%),radial-gradient(circle_at_90%_10%,rgba(74,222,128,0.15),transparent_32%)]',
+      border: 'border border-emerald-300/40 hover:border-emerald-200/70',
+      shadow: 'shadow-[0_25px_80px_rgba(16,185,129,0.18)]',
+      iconBg: 'bg-emerald-400/15 border border-emerald-300/40',
+      iconColor: 'text-emerald-50',
+      badge: 'bg-emerald-400 text-slate-900',
+      arrow: 'text-emerald-100 bg-emerald-400/15'
+    },
+    amber: {
+      bg: 'bg-slate-900/80',
+      overlay: 'bg-[radial-gradient(circle_at_20%_20%,rgba(251,191,36,0.18),transparent_34%),radial-gradient(circle_at_85%_0%,rgba(251,146,60,0.16),transparent_32%)]',
+      border: 'border border-amber-400/45 hover:border-amber-300/70',
+      shadow: 'shadow-[0_25px_80px_rgba(251,191,36,0.18)]',
+      iconBg: 'bg-amber-500/15 border border-amber-400/40',
+      iconColor: 'text-amber-50',
+      badge: 'bg-amber-400 text-slate-900',
+      arrow: 'text-amber-100 bg-amber-400/15'
+    },
+    gold: {
+      bg: 'bg-slate-900/80',
+      overlay: 'bg-[radial-gradient(circle_at_25%_15%,rgba(234,179,8,0.2),transparent_35%),radial-gradient(circle_at_90%_5%,rgba(250,204,21,0.16),transparent_32%)]',
+      border: 'border border-yellow-400/45 hover:border-yellow-300/70',
+      shadow: 'shadow-[0_25px_80px_rgba(234,179,8,0.18)]',
+      iconBg: 'bg-yellow-400/15 border border-yellow-300/50',
+      iconColor: 'text-yellow-50',
+      badge: 'bg-yellow-400 text-slate-900',
+      arrow: 'text-yellow-100 bg-yellow-400/15'
+    },
+    violet: {
+      bg: 'bg-slate-900/80',
+      overlay: 'bg-[radial-gradient(circle_at_15%_25%,rgba(129,140,248,0.18),transparent_34%),radial-gradient(circle_at_85%_5%,rgba(236,72,153,0.12),transparent_32%)]',
+      border: 'border border-indigo-400/50 hover:border-indigo-300/70',
+      shadow: 'shadow-[0_25px_80px_rgba(79,70,229,0.22)]',
+      iconBg: 'bg-indigo-500/20 border border-indigo-400/50',
+      iconColor: 'text-indigo-50',
+      badge: 'bg-indigo-500 text-indigo-50',
+      arrow: 'text-indigo-100 bg-indigo-500/15'
+    },
+    rose: {
+      bg: 'bg-slate-900/80',
+      overlay: 'bg-[radial-gradient(circle_at_20%_20%,rgba(244,63,94,0.18),transparent_34%),radial-gradient(circle_at_90%_10%,rgba(236,72,153,0.16),transparent_32%)]',
+      border: 'border border-pink-400/50 hover:border-pink-300/70',
+      shadow: 'shadow-[0_25px_80px_rgba(244,63,94,0.22)]',
+      iconBg: 'bg-pink-500/15 border border-pink-400/50',
+      iconColor: 'text-pink-50',
+      badge: 'bg-pink-500 text-pink-50',
+      arrow: 'text-pink-100 bg-pink-500/15'
+    }
+  };
 
   const stats = [
     {
@@ -252,54 +334,55 @@ export const HomePage: React.FC<HomePageProps> = ({
       label: 'Resume Score Checks',
       icon: <TrendingUp className="w-5 h-5" />,
       microcopy: 'Completed by members to optimize their resumes',
-      accentBg: 'from-blue-50 to-cyan-50',
-      accentRing: 'ring-blue-100/70',
-      accentText: 'text-blue-700'
+      accentBg: 'from-emerald-500/10 to-cyan-500/10',
+      accentRing: 'border-emerald-400/40',
+      accentText: 'text-emerald-200'
     },
     {
       number: globalResumesCreated.toLocaleString(),
       label: 'Resumes Created', 
       icon: <FileText className="w-5 h-5" />, 
       microcopy: 'Trusted by thousands of job seekers worldwide',
-      accentBg: 'from-indigo-50 to-blue-50',
-      accentRing: 'ring-indigo-100/70',
-      accentText: 'text-indigo-700'
+      accentBg: 'from-sky-500/10 to-indigo-500/10',
+      accentRing: 'border-sky-400/40',
+      accentText: 'text-sky-200'
     },
     {
       number: '95%',
       label: 'Success Rate',
       icon: <TrendingUp className="w-5 h-5" />,
       microcopy: 'Achieved by our AI-driven approach',
-      accentBg: 'from-emerald-50 to-green-50',
-      accentRing: 'ring-emerald-100/70',
-      accentText: 'text-emerald-700'
+      accentBg: 'from-emerald-500/10 to-lime-500/10',
+      accentRing: 'border-emerald-300/50',
+      accentText: 'text-lime-200'
     },
     {
       number: '4.9/5',
       label: 'User Rating',
       icon: <Star className="w-5 h-5" />,
       microcopy: 'From satisfied professionals worldwide',
-      accentBg: 'from-sky-50 to-indigo-50',
-      accentRing: 'ring-sky-100/70',
-      accentText: 'text-sky-700'
+      accentBg: 'from-fuchsia-500/10 to-indigo-500/10',
+      accentRing: 'border-fuchsia-400/50',
+      accentText: 'text-fuchsia-200'
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 font-inter dark:from-dark-50 dark:via-dark-100 dark:to-dark-200 transition-colors duration-300">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        {/* Background Visuals */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-purple-600/5 dark:from-neon-cyan-500/10 dark:to-neon-purple-500/10"></div>
-        <div className="absolute top-1/4 left-1/4 w-48 h-48 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob dark:bg-neon-purple-500"></div>
-        <div className="absolute bottom-1/3 right-1/4 w-64 h-64 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000 dark:bg-neon-blue-500"></div>
-        <div className="absolute top-1/2 left-1/2 w-56 h-56 bg-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000 dark:bg-neon-cyan-500"></div>
+    <div className="relative min-h-screen bg-[#070b14] text-slate-100 overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(59,130,246,0.12),transparent_35%),radial-gradient(circle_at_80%_0%,rgba(16,185,129,0.12),transparent_30%),radial-gradient(circle_at_50%_80%,rgba(236,72,153,0.1),transparent_45%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.04),transparent_35%,rgba(59,130,246,0.06)_65%,transparent)]" />
 
-        <div className="relative container-responsive py-12 sm:py-16 lg:py-20">
-          <div className="text-center max-w-4xl mx-auto space-y-6 sm:space-y-8">
-            {/* Logo and Brand */}
+      <div className="relative">
+        {/* Hero Section */}
+        <div className="container-responsive pt-12 pb-10 sm:pt-16 sm:pb-14">
+          <div className="max-w-5xl mx-auto text-center space-y-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-slate-200 backdrop-blur">
+              <Sparkles className="w-4 h-4 text-emerald-200" />
+              <span>Night mode experience, built to match the new UI</span>
+            </div>
+
             <div className="flex items-center justify-center gap-4">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden shadow-xl">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden shadow-xl ring-2 ring-emerald-500/30">
                 <img
                   src="https://res.cloudinary.com/dlkovvlud/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1751536902/a-modern-logo-design-featuring-primoboos_XhhkS8E_Q5iOwxbAXB4CqQ_HnpCsJn4S1yrhb826jmMDw_nmycqj.jpg"
                   alt="PrimoBoost AI Logo"
@@ -307,75 +390,82 @@ export const HomePage: React.FC<HomePageProps> = ({
                 />
               </div>
               <div className="text-left">
-                <h1 className="text-[22px] sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
+                <h1 className="text-[22px] sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
                   PrimoBoost AI
                 </h1>
-                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Resume Intelligence</p>
+                <p className="text-sm sm:text-base text-slate-400">Resume Intelligence</p>
               </div>
             </div>
 
-            <div className="space-y-5 sm:space-y-6">
-              <h2 className="text-[26px] sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
-                Your Dream Job Starts with a
-                <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-neon-cyan-400 dark:to-neon-blue-400">
-                  Perfect Resume
+            <div className="space-y-4">
+              <h2 className="text-[28px] sm:text-4xl lg:text-5xl font-extrabold leading-tight">
+                Choose Your Resume Journey
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-400">
+                  Built for the night mode experience
                 </span>
               </h2>
 
-              <p className="text-base sm:text-lg text-gray-700 dark:text-gray-300 leading-relaxed max-w-3xl mx-auto">
-                Choose your path to success. Whether you're building from scratch, optimizing for specific jobs, or just want to check your current resume score - we've got you covered.
+              <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto">
+                Pick a starting point and flow through AI-powered tools that match the new dark interface. Optimise for a JD, check your ATS score, build from scratch, or warm up with interviews and games.
               </p>
             </div>
 
-            {/* Hero CTA Button */}
             <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center mt-2">
               <button
                 onClick={() => navigate('/optimizer')}
                 className="btn-primary h-12 px-6 sm:px-7 rounded-xl text-base sm:text-lg font-semibold gap-2 shadow-lg hover:shadow-xl"
               >
                 <Sparkles className="w-5 h-5" />
-                Start Building My Resume
+                Start Optimizing
+              </button>
+              <button
+                onClick={() => navigate('/jobs')}
+                className="btn-secondary h-12 px-6 sm:px-7 rounded-xl text-base sm:text-lg font-semibold gap-2 border border-white/10 bg-white/5 text-slate-100 hover:bg-white/10"
+              >
+                <Briefcase className="w-5 h-5" />
+                Explore Jobs
               </button>
             </div>
+          </div>
 
-            {/* Quick Stats */}
-            <div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 pt-2">
-              {stats.map((stat, index) => (
-                <Card
-                  key={index}
-                  padding="lg"
-                  className="card-surface text-left flex items-start gap-3 sm:gap-4 hover:shadow-lg hover:-translate-y-0.5 transition"
-                >
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-b ${stat.accentBg} ${stat.accentRing} ring-2 ring-inset text-blue-700 dark:bg-dark-200 dark:text-white`}>
-                    {React.cloneElement(stat.icon, { className: `w-5 h-5 ${stat.accentText}` })}
+          <div className="mt-10 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {stats.map((stat) => (
+              <Card
+                key={stat.label}
+                padding="lg"
+                className="card-surface text-left flex items-start gap-3 sm:gap-4 bg-slate-900/70 border border-slate-800/70 shadow-[0_20px_80px_rgba(0,0,0,0.55)]"
+              >
+                <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-b ${stat.accentBg} ${stat.accentRing} ring-1 ring-inset`}>
+                  {React.cloneElement(stat.icon, { className: `w-5 h-5 ${stat.accentText}` })}
+                </div>
+                <div className="space-y-1">
+                  <div className="text-xl font-bold text-white leading-tight">
+                    {stat.number}
                   </div>
-                  <div className="space-y-1">
-                    <div className="text-xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
-                      {stat.number}
-                    </div>
-                    <div className="text-sm font-semibold text-gray-900 dark:text-gray-200 leading-snug">
-                      {stat.label}
-                    </div>
-                    {stat.microcopy && (
-                      <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-                        {stat.microcopy}
-                      </p>
-                    )}
+                  <div className="text-sm font-semibold text-slate-200 leading-snug">
+                    {stat.label}
                   </div>
-                </Card>
-              ))}
-            </div>
+                  {stat.microcopy && (
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      {stat.microcopy}
+                    </p>
+                  )}
+                </div>
+              </Card>
+            ))}
           </div>
         </div>
       </div>
 
       {/* Main Features Section - Now with a consolidated frame */}
-      <div className="container-responsive py-12 sm:py-16 bg-primary-50 dark:bg-dark-100">
-        <div className="mb-12">
-          <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4 text-center">
-            Choose Your Resume Journey
-          </h3>
-        </div>
+      <section className="relative container-responsive py-10 sm:py-14">
+        <div className="absolute inset-0 -z-10 bg-[#0a0f1c] rounded-[32px] blur-3xl opacity-80" />
+        <div className="relative">
+          <div className="text-center mb-8 space-y-2">
+            <p className="text-xs uppercase tracking-[0.28em] text-slate-500">Journeys</p>
+            <h3 className="text-2xl sm:text-3xl font-bold text-white">Choose Your Resume Journey</h3>
+            <p className="text-slate-400 max-w-3xl mx-auto">Night-mode friendly cards with soft glows and clear calls to action.</p>
+          </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
           {features.map((feature, index) => {
             let remainingCount: number | null = null;
@@ -387,25 +477,11 @@ export const HomePage: React.FC<HomePageProps> = ({
                 case 'score-checker':
                   remainingCount = userSubscription.scoreChecksTotal - userSubscription.scoreChecksUsed;
                   break;
-                case 'guided-builder':
-                  remainingCount = null;
-                  break;
-                case 'linkedin-generator':
-                  remainingCount = null;
-                  break;
-                case 'mock-interview':
-                  remainingCount = null;
-                  break;
-                case 'portfolio-builder':
-                  remainingCount = null;
-                  break;
-                case '/gaming':
-                  remainingCount = null;
-                  break;
                 default:
                   remainingCount = null;
               }
             }
+            const accent = accentStyles[feature.accent];
 
             return (
               <Card
@@ -413,59 +489,67 @@ export const HomePage: React.FC<HomePageProps> = ({
                 key={feature.id}
                 onClick={() => handleFeatureClick(feature)}
                 padding="lg"
-                className={`relative text-left transition-all duration-300 bg-gradient-to-br ${feature.gradient} border border-secondary-100/70 hover:shadow-lg group ${
-                  feature.requiresAuth && !isAuthenticated ? 'opacity-70 cursor-not-allowed' : ''
-                } ${feature.highlight ? 'ring-2 ring-green-500 ring-offset-2 overflow-visible' : ''}`}
+                className={`relative overflow-hidden text-left transition-all duration-300 ${accent.bg} ${accent.border} ${accent.shadow} backdrop-blur-xl ${
+                  feature.requiresAuth && !isAuthenticated ? 'opacity-60 cursor-not-allowed' : 'hover:-translate-y-1 hover:shadow-2xl'
+                } ${feature.highlight ? 'ring-2 ring-emerald-400/60 ring-offset-0 overflow-visible' : ''}`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.45, delay: index * 0.05 }}
-                whileHover={{ y: -2, scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
+                whileHover={feature.requiresAuth && !isAuthenticated ? undefined : { y: -4, scale: 1.01 }}
+                whileTap={{ scale: 0.995 }}
               >
-                {feature.highlight && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <span className="inline-flex items-center bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                      <Check className="w-3 h-3 mr-1" /> Recommended
+                <div className={`absolute inset-0 ${accent.overlay}`} />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 opacity-10" />
+                {feature.tag && (
+                  <div className="absolute -top-3 left-4">
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold shadow-lg ${accent.badge}`}>
+                      <Check className="w-3 h-3 mr-1" />
+                      {feature.tag}
                     </span>
                   </div>
                 )}
-                <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/90 text-secondary-900 shadow-sm group-hover:scale-110 transition dark:bg-dark-200 dark:text-gray-100">
-                    {React.cloneElement(feature.icon, { className: "w-6 h-6" })}
+                <div className="relative flex items-start gap-4">
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${accent.iconBg} ${accent.iconColor}`}>
+                    {React.cloneElement(feature.icon, { className: `w-6 h-6 ${accent.iconColor}` })}
                   </div>
-                  <div className="flex-1 space-y-1.5">
-                    <span className="block text-[16px] font-semibold text-secondary-900 dark:text-gray-100 leading-snug">
-                      {feature.title}
-                    </span>
-                    <p className="text-sm text-secondary-700 dark:text-gray-300 leading-relaxed">
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[16px] font-semibold text-white leading-snug">
+                        {feature.title}
+                      </span>
+                      {feature.requiresAuth && !isAuthenticated && (
+                        <span className="text-[11px] uppercase tracking-wide text-amber-200 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-200/30">
+                          Sign in
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-sm text-slate-300 leading-relaxed">
                       {feature.description}
                     </p>
                     {isAuthenticated && userSubscription && remainingCount !== null && remainingCount > 0 && (
-                      <p className="text-xs font-medium text-green-600 dark:text-neon-cyan-400">
+                      <p className="text-xs font-medium text-emerald-200">
                         {remainingCount} remaining
                       </p>
                     )}
                   </div>
-                  <ArrowRight
-                    className={`w-5 h-5 text-secondary-400 group-hover:text-neon-cyan-400 group-hover:translate-x-1 transition-transform duration-300 ${
-                      feature.requiresAuth && !isAuthenticated ? 'opacity-50' : ''
-                    }`}
-                  />
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-full ${accent.arrow} border border-white/10 transition-transform duration-300 group-hover:translate-x-1`}>
+                    <ArrowRight
+                      className={`w-4 h-4 ${feature.requiresAuth && !isAuthenticated ? 'opacity-60' : ''}`}
+                    />
+                  </div>
                 </div>
               </Card>
             );
           })}
         </div>
-
       </div>
+    </section>
 
       {/* Companies Marquee Section (with illustrated background) */}
-      <section className="relative isolate overflow-hidden py-12 sm:py-14 bg-gradient-to-br from-blue-50 via-indigo-50 to-cyan-50 dark:from-dark-50 dark:via-dark-100 dark:to-dark-200 border-y border-gray-200/70 dark:border-dark-300">
-        {/* Decorative background orbs */}
-        <div aria-hidden className="pointer-events-none absolute -top-24 -left-24 h-64 w-64 rounded-full bg-gradient-to-br from-cyan-300/40 to-blue-300/30 blur-3xl" />
-        <div aria-hidden className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-gradient-to-br from-purple-300/40 to-indigo-300/30 blur-3xl" />
-        {/* Local styles for marquee animation */}
+      <section className="relative isolate overflow-hidden py-12 sm:py-14 bg-[#0a0f1c] border-y border-slate-800/60">
+        <div aria-hidden className="pointer-events-none absolute -top-24 -left-24 h-64 w-64 rounded-full bg-gradient-to-br from-cyan-400/20 to-blue-400/10 blur-3xl" />
+        <div aria-hidden className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-gradient-to-br from-purple-400/20 to-indigo-400/10 blur-3xl" />
         <style>{`
           @keyframes marqueeX { from { transform: translateX(0); } to { transform: translateX(-50%); } }
           .marquee-track { animation: marqueeX 28s linear infinite; }
@@ -474,8 +558,8 @@ export const HomePage: React.FC<HomePageProps> = ({
         `}</style>
         <div className="container-responsive">
           <div className="text-center mb-6">
-            <h4 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100">Top Companies Our Users Apply To</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Trusted by candidates interviewing at leading global brands</p>
+            <h4 className="text-lg sm:text-xl font-semibold text-white">Top Companies Our Users Apply To</h4>
+            <p className="text-sm text-slate-400">Trusted by candidates interviewing at leading global brands</p>
           </div>
 
           {(() => {
@@ -487,9 +571,9 @@ export const HomePage: React.FC<HomePageProps> = ({
             const chip = (name: string, i: number) => (
               <span
                 key={name + i}
-                className="mx-2 my-2 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 text-gray-700 shadow-sm border border-gray-200 backdrop-blur dark:bg-dark-200/70 dark:text-gray-200 dark:border-dark-300"
+                className="mx-2 my-2 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 text-slate-200 shadow-sm border border-white/10 backdrop-blur"
               >
-                <Briefcase className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                <Briefcase className="w-4 h-4 text-slate-400" />
                 <span className="text-sm font-medium">{name}</span>
               </span>
             );
@@ -519,14 +603,14 @@ export const HomePage: React.FC<HomePageProps> = ({
             transition={{ duration: 0.45 }}
             className="mt-8"
           >
-            <div className="max-w-4xl mx-auto rounded-2xl p-5 sm:p-6 bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100 flex flex-col sm:flex-row items-center justify-between gap-4 dark:from-dark-200 dark:to-dark-100 dark:border-dark-300">
+            <div className="max-w-4xl mx-auto rounded-2xl p-5 sm:p-6 bg-white/5 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_20px_80px_rgba(0,0,0,0.45)]">
               <div className="text-center sm:text-left">
-                <h5 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100">Explore Job Openings</h5>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Find roles at top companies and apply with your optimized resume.</p>
+                <h5 className="text-base sm:text-lg font-semibold text-white">Explore Job Openings</h5>
+                <p className="text-sm text-slate-400">Find roles at top companies and apply with your optimized resume.</p>
               </div>
               <button
                 onClick={() => navigate('/jobs')}
-                className="inline-flex items-center px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-blue-600 to-cyan-600 shadow hover:shadow-lg hover:from-blue-700 hover:to-cyan-700 transition-all"
+                className="inline-flex items-center px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-emerald-500 to-cyan-500 shadow-lg hover:shadow-xl hover:from-emerald-400 hover:to-cyan-400 transition-all"
               >
                 <Briefcase className="w-4 h-4 mr-2" />
                 Explore Jobs
@@ -537,19 +621,18 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* Minimalist Plans Section */}
+      {/* Plans Section */}
       {isAuthenticated && (
-        <div className="bg-white py-16 dark:bg-dark-100">
+        <div className="bg-[#080c15] py-12 sm:py-14 border-b border-slate-800/60">
           <div className="container-responsive">
-            {/* New Dropdown for User's Plan Status */}
             <div className="max-w-2xl mx-auto mb-10">
               <div className="relative inline-block text-left w-full">
                 <button
                   onClick={() => setShowPlanDetails(!showPlanDetails)}
-                  className="w-full bg-slate-100 text-slate-800 font-semibold py-3 px-6 rounded-xl flex items-center justify-between shadow-sm hover:bg-slate-200 transition-colors dark:bg-dark-200 dark:text-gray-100 dark:hover:bg-dark-300"
+                  className="w-full bg-white/5 text-slate-100 font-semibold py-3 px-6 rounded-xl flex items-center justify-between shadow-sm border border-white/10 hover:bg-white/10 transition-colors"
                 >
                   <span className="flex items-center">
-                    <Sparkles className="w-5 h-5 text-indigo-500 mr-2 dark:text-neon-cyan-400" />
+                    <Sparkles className="w-5 h-5 text-emerald-300 mr-2" />
                     {userSubscription ? (
                       <span>
                         Optimizations Left:{' '}
@@ -564,16 +647,16 @@ export const HomePage: React.FC<HomePageProps> = ({
                   {showPlanDetails ? <ChevronUp className="w-5 h-5 ml-2" /> : <ChevronDown className="w-5 h-5 ml-2" />}
                 </button>
                 {showPlanDetails && (
-                  <div className="absolute z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-dark-100 dark:ring-dark-300 dark:shadow-dark-xl">
+                  <div className="absolute z-10 mt-2 w-full origin-top-right rounded-md bg-[#0c111b] shadow-2xl border border-white/10 focus:outline-none">
                     <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                       {userSubscription ? (
                         <>
-                          <div className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
+                          <div className="block px-4 py-2 text-sm text-slate-200">
                             <p className="font-semibold">{userSubscription.name} Plan</p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">Details for your current subscription.</p>
+                            <p className="text-xs text-slate-400">Details for your current subscription.</p>
                           </div>
-                          <hr className="my-1 border-gray-100 dark:border-dark-300" />
-                          <div className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                          <hr className="my-1 border-white/10" />
+                          <div className="px-4 py-2 text-sm text-slate-200 space-y-1">
                             <div className="flex justify-between items-center">
                               <span>Optimizations:</span>
                               <span className="font-medium">{userSubscription.optimizationsTotal - userSubscription.optimizationsUsed} / {userSubscription.optimizationsTotal}</span>
@@ -582,15 +665,14 @@ export const HomePage: React.FC<HomePageProps> = ({
                               <span>Score Checks:</span>
                               <span className="font-medium">{userSubscription.scoreChecksTotal - userSubscription.scoreChecksUsed} / {userSubscription.scoreChecksTotal}</span>
                             </div>
-                            
                           </div>
                         </>
                       ) : (
-                        <div className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
+                        <div className="block px-4 py-2 text-sm text-slate-200">
                           You currently don't have an active subscription.
                         </div>
                       )}
-                      <div className="p-4 border-t border-gray-100 dark:border-dark-300">
+                      <div className="p-4 border-t border-white/10">
                         <button
                           onClick={() => onShowSubscriptionPlans(undefined, true)}
                           className="w-full btn-primary py-2"
@@ -603,12 +685,11 @@ export const HomePage: React.FC<HomePageProps> = ({
                 )}
               </div>
             </div>
-            
-            
+
             <div className="text-center mt-12">
               <button
-                onClick={onShowSubscriptionPlansDirectly} // MODIFIED: Call the new direct function
-                className="btn-secondary px-8 py-3"
+                onClick={onShowSubscriptionPlansDirectly}
+                className="btn-secondary px-8 py-3 border border-white/10 bg-white/5 text-slate-100 hover:bg-white/10"
               >
                 View All Plans & Add-ons
               </button>
@@ -618,7 +699,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       )}
 
       {/* Additional Features Teaser - animated and responsive */}
-      <div className="relative overflow-hidden text-white py-16 sm:py-20 px-4 sm:px-0 bg-gradient-to-br from-[#0f172a] via-[#25164a] to-[#0b2c60] dark:from-dark-50 dark:via-dark-100 dark:to-dark-200">
+      <div className="relative overflow-hidden text-white py-16 sm:py-20 px-4 sm:px-0 bg-gradient-to-br from-[#0b0f1a] via-[#0c1322] to-[#0a0f18]">
         {/* subtle animated gradient orbs */}
         <motion.div
           aria-hidden
@@ -709,15 +790,16 @@ export const HomePage: React.FC<HomePageProps> = ({
 
       {/* CTA Section */}
 
+      {
       {/* Footer */}
-      <footer className="mt-8 sm:mt-16 bg-white/70 dark:bg-dark-100/80 backdrop-blur border-t border-gray-200 dark:border-dark-300">
+      <footer className="mt-8 sm:mt-14 bg-[#080c15]/90 backdrop-blur border-t border-slate-800/60">
         {/* gradient accent line */}
-        <div className="h-0.5 bg-gradient-to-r from-pink-500 via-cyan-400 to-blue-600 dark:from-neon-pink-500 dark:via-neon-cyan-400 dark:to-neon-blue-500" />
+        <div className="h-0.5 bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500" />
         <div className="container-responsive pt-6 pb-8 sm:py-8">
           <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
             {/* Brand */}
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl overflow-hidden shadow ring-1 ring-black/5">
+              <div className="w-9 h-9 rounded-xl overflow-hidden shadow ring-1 ring-white/10">
                 <img
                   src="https://res.cloudinary.com/dlkovvlud/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/v1751536902/a-modern-logo-design-featuring-primoboos_XhhkS8E_Q5iOwxbAXB4CqQ_HnpCsJn4S1yrhb826jmMDw_nmycqj.jpg"
                   alt="PrimoBoost AI"
@@ -725,14 +807,14 @@ export const HomePage: React.FC<HomePageProps> = ({
                 />
               </div>
               <div>
-                <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">PrimoBoost AI</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">Resume Intelligence</p>
+                <p className="text-sm font-semibold text-white">PrimoBoost AI</p>
+                <p className="text-xs text-slate-400">Resume Intelligence</p>
               </div>
             </div>
 
             {/* Copyright */}
-            <div className="text-sm text-gray-600 dark:text-gray-400 text-center md:text-left">
-              © {new Date().getFullYear()} PrimoBoost AI. All rights reserved.
+            <div className="text-sm text-slate-400 text-center md:text-left">
+              (c) {new Date().getFullYear()} PrimoBoost AI. All rights reserved.
             </div>
 
             {/* Socials */}
@@ -741,7 +823,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 href="https://instagram.com/primoboostai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 text-pink-600 bg-white/70 hover:bg-pink-50 hover:ring-2 hover:ring-pink-300 transition-all dark:border-dark-300 dark:text-pink-400 dark:bg-dark-200/60 dark:hover:bg-dark-200"
+                className="group inline-flex items-center justify-center w-10 h-10 rounded-full border border-white/10 text-pink-300 bg-white/5 hover:bg-white/10 hover:ring-2 hover:ring-pink-300/40 transition-all"
                 aria-label="Instagram"
                 title="Instagram"
               >
@@ -751,7 +833,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 href="https://linkedin.com/company/primoboost-ai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 text-blue-700 bg-white/70 hover:bg-blue-50 hover:ring-2 hover:ring-blue-300 transition-all dark:border-dark-300 dark:text-neon-cyan-400 dark:bg-dark-200/60 dark:hover:bg-dark-200"
+                className="group inline-flex items-center justify-center w-10 h-10 rounded-full border border-white/10 text-cyan-300 bg-white/5 hover:bg-white/10 hover:ring-2 hover:ring-cyan-300/40 transition-all"
                 aria-label="LinkedIn"
                 title="LinkedIn"
               >
@@ -761,7 +843,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 href="https://wa.me/0000000000"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 text-green-600 bg-white/70 hover:bg-green-50 hover:ring-2 hover:ring-green-300 transition-all dark:border-dark-300 dark:text-green-400 dark:bg-dark-200/60 dark:hover:bg-dark-200"
+                className="group inline-flex items-center justify-center w-10 h-10 rounded-full border border-white/10 text-emerald-300 bg-white/5 hover:bg-white/10 hover:ring-2 hover:ring-emerald-300/40 transition-all"
                 aria-label="WhatsApp"
                 title="WhatsApp"
               >
@@ -774,3 +856,7 @@ export const HomePage: React.FC<HomePageProps> = ({
     </div>
   );
 };
+
+
+
+
