@@ -790,7 +790,6 @@ export const HomePage: React.FC<HomePageProps> = ({
 
       {/* CTA Section */}
 
-      {
       {/* Footer */}
       <footer className="mt-8 sm:mt-14 bg-[#080c15]/90 backdrop-blur border-t border-slate-800/60">
         {/* gradient accent line */}
