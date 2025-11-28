@@ -268,6 +268,63 @@ HALLUCINATION PREVENTION:
 3. If the resume mentions "React", do not add "Angular" unless it's in the JD and contextually relevant
 4. Stick to facts from the original resume - enhance presentation, not content
 
+PROJECT STRUCTURING REQUIREMENTS (MANDATORY):
+1. EVERY project MUST follow this exact structure:
+   - Project Title with Role (e.g., "E-commerce Platform - Backend Developer")
+   - One-line problem statement or context
+   - 2-3 impact bullets with VERB + TECH + IMPACT + METRIC pattern
+   - One mandatory "Tech Used:" bullet listing ALL technologies
+
+2. "Tech Used:" bullet MUST include:
+   - Main programming languages (e.g., Java, Python, JavaScript)
+   - Frameworks and libraries (e.g., React, Spring Boot, Django)
+   - Databases (e.g., MySQL, PostgreSQL, MongoDB)
+   - Infrastructure/DevOps tools (e.g., Docker, Kubernetes, AWS, Jenkins)
+   - Architecture patterns when relevant (e.g., microservices, REST API, event-driven)
+
+3. Example compliant project:
+   Payment Gateway Integration - Backend Developer
+   Built secure payment processing system for e-commerce platform.
+   • Developed RESTful API using Node.js and Express handling 50,000+ daily transactions
+   • Implemented fraud detection algorithms reducing false positives by 45%
+   • Integrated Stripe and PayPal APIs achieving 99.9% uptime
+   • Tech Used: Node.js, Express, MongoDB, Redis, Docker, AWS Lambda, Stripe API, RESTful architecture
+
+CERTIFICATION EXPANSION REQUIREMENTS:
+1. Expand ALL abbreviated certification names to full official titles
+2. Examples of correct expansions:
+   - "AWS Certified" → "AWS Certified Solutions Architect - Associate"
+   - "Azure Fundamentals" → "Microsoft Certified: Azure Fundamentals"
+   - "CKA" → "Certified Kubernetes Administrator (CKA)"
+   - "PMP" → "Project Management Professional (PMP)"
+3. Include certification provider in the title (AWS, Microsoft, Google Cloud, etc.)
+4. Add level designation when applicable (Associate, Professional, Expert, Specialist)
+
+JOB TITLE PLACEMENT REQUIREMENTS (CRITICAL):
+1. Job title from JD MUST appear in these locations:
+   - In the targetRole field (header section)
+   - In the first sentence of Professional Summary or Career Objective
+   - At least once in Work Experience role titles OR Project titles
+2. Use exact job title wording from the JD when possible
+3. If job title is "Senior Java Developer", mention "Java Developer" role explicitly
+
+KEYWORD FREQUENCY REQUIREMENTS:
+1. Extract top 5-10 technical skills from the job description
+2. Each top skill should appear 4-6 times naturally across:
+   - Skills section (1 time)
+   - Summary/Objective (0-1 times)
+   - Work Experience bullets (1-2 times)
+   - Projects bullets (2-3 times)
+3. Distribute keywords across different sections, not clustered
+4. Ensure keywords fit semantic context of each bullet
+
+WORD COUNT REQUIREMENTS (STRICT):
+1. Professional Summary: 40-60 words
+2. Career Objective: 30-50 words
+3. Each bullet point: 12-18 words
+4. Total resume target: 400-650 words
+5. DO NOT exceed these limits
+
 SKILLS REQUIREMENTS: (Generate comprehensive skills based on the resume content and job description)
 1. Include at least 6-8 distinct skill categories.
 2. Each category should contain 5-8 specific, relevant skills.
