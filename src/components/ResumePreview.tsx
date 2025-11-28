@@ -387,11 +387,11 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({
 
   const getSectionOrder = () => {
     if (userType === 'experienced') {
-      return ['summary', 'education', 'workExperience', 'projects', 'skills', 'certifications', 'additionalSections'];
+      return ['summary', 'skills', 'workExperience', 'projects', 'education', 'certifications', 'additionalSections'];
     } else if (userType === 'student') {
-      return ['careerObjective', 'education', 'workExperience', 'projects', 'skills', 'certifications', 'achievementsAndExtras', 'additionalSections'];
+      return ['careerObjective', 'education', 'skills', 'projects', 'workExperience', 'certifications', 'achievementsAndExtras', 'additionalSections'];
     } else { // 'fresher'
-      return ['careerObjective', 'education', 'workExperience', 'projects', 'skills', 'certifications', 'achievementsAndExtras', 'additionalSections'];
+      return ['careerObjective', 'skills', 'workExperience', 'projects', 'education', 'certifications', 'achievementsAndExtras', 'additionalSections'];
     }
   };
 

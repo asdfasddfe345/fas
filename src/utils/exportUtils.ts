@@ -869,28 +869,28 @@ export const exportToPDF = async (resumeData: ResumeData, userType: UserType = '
       try { fn(); } catch (err) { console.error(`[PDF] Section failed: ${label}`, err); }
     };
 
-    // Align section order with ResumePreview.tsx
+    // ATS-Compliant section order
     if (userType === 'experienced') {
-        // Preview order: summary, education, workExperience, projects, skills, certifications
-        safeDraw('Education', () => drawEducation(state, resumeData.education, PDF_CONFIG));
+        // ATS Order: Summary → Skills → Experience → Projects → Education
+        safeDraw('Skills', () => drawSkills(state, resumeData.skills, PDF_CONFIG));
         safeDraw('WorkExperience', () => drawWorkExperience(state, resumeData.workExperience, userType, PDF_CONFIG));
         safeDraw('Projects', () => drawProjects(state, resumeData.projects, PDF_CONFIG));
-        safeDraw('Skills', () => drawSkills(state, resumeData.skills, PDF_CONFIG));
+        safeDraw('Education', () => drawEducation(state, resumeData.education, PDF_CONFIG));
         safeDraw('Certifications', () => renderCertificationsForPDF2(state, getEffectiveCertifications(resumeData), PDF_CONFIG));
     } else if (userType === 'student') {
-        // Preview order: careerObjective, education, workExperience, projects, skills, certifications, achievements
+        // ATS Order: Career Objective → Education → Skills → Projects → Experience
         safeDraw('Education', () => drawEducation(state, resumeData.education, PDF_CONFIG));
-        safeDraw('WorkExperience', () => drawWorkExperience(state, resumeData.workExperience, userType, PDF_CONFIG));
-        safeDraw('Projects', () => drawProjects(state, resumeData.projects, PDF_CONFIG));
         safeDraw('Skills', () => drawSkills(state, resumeData.skills, PDF_CONFIG));
+        safeDraw('Projects', () => drawProjects(state, resumeData.projects, PDF_CONFIG));
+        safeDraw('WorkExperience', () => drawWorkExperience(state, resumeData.workExperience, userType, PDF_CONFIG));
         safeDraw('Certifications', () => renderCertificationsForPDF2(state, getEffectiveCertifications(resumeData), PDF_CONFIG));
         safeDraw('Achievements', () => drawAchievementsAndExtras(state, resumeData, PDF_CONFIG));
     } else { // Fresher
-        // Preview order: careerObjective, education, workExperience, projects, skills, certifications, achievements
-        safeDraw('Education', () => drawEducation(state, resumeData.education, PDF_CONFIG));
+        // ATS Order: Career Objective → Skills → Experience → Projects → Education
+        safeDraw('Skills', () => drawSkills(state, resumeData.skills, PDF_CONFIG));
         safeDraw('WorkExperience', () => drawWorkExperience(state, resumeData.workExperience, userType, PDF_CONFIG));
         safeDraw('Projects', () => drawProjects(state, resumeData.projects, PDF_CONFIG));
-        safeDraw('Skills', () => drawSkills(state, resumeData.skills, PDF_CONFIG));
+        safeDraw('Education', () => drawEducation(state, resumeData.education, PDF_CONFIG));
         safeDraw('Certifications', () => renderCertificationsForPDF2(state, getEffectiveCertifications(resumeData), PDF_CONFIG));
         safeDraw('Achievements', () => drawAchievementsAndExtras(state, resumeData, PDF_CONFIG));
     }
@@ -1141,34 +1141,36 @@ const generateWordHTMLContent = (data: ResumeData, userType: UserType = 'experie
   ` : '';
 
   if (userType === 'experienced') {
-    // Match ResumePreview order
+    // ATS-Compliant Order: Summary → Skills → Experience → Projects → Education
     sectionOrderHtml = `
       ${summaryHtml}
-      ${educationHtml}
+      ${skillsHtml}
       ${workExperienceHtml}
       ${projectsHtml}
-      ${skillsHtml}
+      ${educationHtml}
       ${certificationsHtml}
       ${additionalSectionsHtml}
     `;
   } else if (userType === 'student') {
+    // ATS-Compliant Order: Career Objective → Education → Skills → Projects → Experience
     sectionOrderHtml = `
       ${careerObjectiveHtml}
       ${educationHtml}
-      ${workExperienceHtml}
-      ${projectsHtml}
       ${skillsHtml}
+      ${projectsHtml}
+      ${workExperienceHtml}
       ${certificationsHtml}
       ${achievementsHtml}
       ${additionalSectionsHtml}
     `;
   } else { // Fresher
+    // ATS-Compliant Order: Career Objective → Skills → Experience → Projects → Education
     sectionOrderHtml = `
       ${careerObjectiveHtml}
-      ${educationHtml}
+      ${skillsHtml}
       ${workExperienceHtml}
       ${projectsHtml}
-      ${skillsHtml}
+      ${educationHtml}
       ${certificationsHtml}
       ${achievementsHtml}
       ${additionalSectionsHtml}
