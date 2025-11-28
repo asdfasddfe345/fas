@@ -90,7 +90,72 @@ export const ExportButtons: React.FC<ExportButtonsProps> = ({
 
   return (
     <div className="space-y-4">
-      {/* Export buttons hidden - ATS compatibility focus only */}
+      {/* Export Buttons */}
+      <div className="flex flex-col sm:flex-row gap-4">
+        <button
+          onClick={handleExportPDF}
+          disabled={isExportingPDF || isExportingWord}
+          className={`flex-1 py-4 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl ${
+            isExportingPDF || isExportingWord
+              ? 'bg-gray-400 cursor-not-allowed text-white'
+              : 'bg-red-600 hover:bg-red-700 text-white'
+          }`}
+        >
+          {isExportingPDF ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin" />
+              <span>Exporting PDF...</span>
+            </>
+          ) : (
+            <>
+              <FileText className="w-5 h-5" />
+              <span>Download by PDF</span>
+            </>
+          )}
+        </button>
+
+        <button
+          onClick={handleExportWord}
+          disabled={isExportingWord || isExportingPDF}
+          className={`flex-1 py-4 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl ${
+            isExportingWord || isExportingPDF
+              ? 'bg-gray-400 cursor-not-allowed text-white'
+              : 'bg-gradient-to-r from-neon-cyan-500 to-neon-blue-500 hover:from-neon-cyan-400 hover:to-neon-blue-400 text-white hover:shadow-neon-cyan'
+          }`}
+        >
+          {isExportingWord ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin" />
+              <span>Exporting Word...</span>
+            </>
+          ) : (
+            <>
+              <FileText className="w-5 h-5" />
+              <span>Download by Word(.docx)</span>
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* Export Status Message */}
+      {exportStatus.status && (
+        <div
+          className={`p-4 rounded-xl border transition-all ${
+            exportStatus.status === 'success'
+              ? 'bg-green-50 border-green-200 text-green-800 dark:bg-neon-cyan-500/10 dark:border-neon-cyan-400/50 dark:text-neon-cyan-300'
+              : 'bg-red-50 border-red-200 text-red-800 dark:bg-red-900/20 dark:border-red-500/50 dark:text-red-300'
+          }`}
+        >
+          <div className="flex items-center">
+            {exportStatus.status === 'success' ? (
+              <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+            ) : (
+              <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+            )}
+            <span className="font-medium">{exportStatus.message}</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
