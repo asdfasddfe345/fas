@@ -5,6 +5,7 @@ import {
   FileText,
   User,
   Briefcase,
+  GraduationCap,
   ArrowLeft,
   ArrowRight,
   Sparkles,
@@ -155,48 +156,68 @@ export const InputWizard: React.FC<InputWizardProps> = ({
             <Briefcase className="w-5 h-5 mr-2 text-indigo-600 dark:text-indigo-400" />
             Experience Level
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Student Button */}
+            <button
+              onClick={() => setUserType('student')}
+              className={`flex flex-col items-center justify-center p-6 rounded-xl border-2 transition-all cursor-pointer ${
+                userType === 'student'
+                  ? 'border-green-500 bg-green-50 shadow-md dark:border-green-600 dark:bg-green-900/20'
+                  : 'border-gray-200 hover:border-green-300 hover:bg-green-50 dark:border-dark-200 dark:hover:border-green-900 dark:hover:bg-green-900/10'
+              }`}
+            >
+              <GraduationCap className={`w-8 h-8 mb-3 ${userType === 'student' ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-300'}`} />
+              <span className={`font-semibold text-lg mb-2 ${userType === 'student' ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-gray-100'}`}>Student</span>
+              <span className="text-sm text-gray-500 text-center dark:text-gray-300">Currently pursuing degree or in college</span>
+            </button>
+
             {/* Fresher/New Graduate Button */}
-            {(() => {
-              const fresherButtonClasses = `flex flex-col items-center justify-center p-6 rounded-xl border-2 transition-all cursor-pointer ${
+            <button
+              onClick={() => setUserType('fresher')}
+              className={`flex flex-col items-center justify-center p-6 rounded-xl border-2 transition-all cursor-pointer ${
                 userType === 'fresher'
                   ? 'border-green-500 bg-green-50 shadow-md dark:border-green-600 dark:bg-green-900/20'
                   : 'border-gray-200 hover:border-green-300 hover:bg-green-50 dark:border-dark-200 dark:hover:border-green-900 dark:hover:bg-green-900/10'
-              }`;
-              const fresherIconClasses = `w-8 h-8 mb-3 ${userType === 'fresher' ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-300'}`;
-              const fresherTextClasses = `font-semibold text-lg mb-2 ${userType === 'fresher' ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-gray-100'}`;
-              return (
-                <button
-                  onClick={() => setUserType('fresher')}
-                  className={fresherButtonClasses}
-                >
-                  <User className={fresherIconClasses} />
-                  <span className={fresherTextClasses}>Fresher/New Graduate</span>
-                  <span className={`text-sm text-gray-500 text-center dark:text-gray-300`}>Recent graduate or entry-level professional</span>
-                </button>
-              );
-            })()}
+              }`}
+            >
+              <User className={`w-8 h-8 mb-3 ${userType === 'fresher' ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-300'}`} />
+              <span className={`font-semibold text-lg mb-2 ${userType === 'fresher' ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-gray-100'}`}>Fresher/New Graduate</span>
+              <span className="text-sm text-gray-500 text-center dark:text-gray-300">Recent graduate or entry-level professional</span>
+            </button>
 
             {/* Experienced Professional Button */}
-            {(() => {
-              const experiencedButtonClasses = `flex flex-col items-center justify-center p-6 rounded-xl border-2 transition-all cursor-pointer ${
+            <button
+              onClick={() => setUserType('experienced')}
+              className={`flex flex-col items-center justify-center p-6 rounded-xl border-2 transition-all cursor-pointer ${
                 userType === 'experienced'
                   ? 'border-green-500 bg-green-50 shadow-md dark:border-green-600 dark:bg-green-900/20'
                   : 'border-gray-200 hover:border-green-300 hover:bg-green-50 dark:border-dark-200 dark:hover:border-green-900 dark:hover:bg-green-900/10'
-              }`;
-              const experiencedIconClasses = `w-8 h-8 mb-3 ${userType === 'experienced' ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-300'}`;
-              const experiencedTextClasses = `font-semibold text-lg mb-2 ${userType === 'experienced' ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-gray-100'}`;
-              return (
-                <button
-                  onClick={() => setUserType('experienced')}
-                  className={experiencedButtonClasses}
-                >
-                  <Briefcase className={experiencedIconClasses} />
-                  <span className={experiencedTextClasses}>Experienced Professional</span>
-                  <span className={`text-sm text-gray-500 text-center dark:text-gray-300`}>Professional with 1+ years of work experience</span>
-                </button>
-              );
-            })()}
+              }`}
+            >
+              <Briefcase className={`w-8 h-8 mb-3 ${userType === 'experienced' ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-300'}`} />
+              <span className={`font-semibold text-lg mb-2 ${userType === 'experienced' ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-gray-100'}`}>Experienced Professional</span>
+              <span className="text-sm text-gray-500 text-center dark:text-gray-300">Professional with 1+ years of work experience</span>
+            </button>
+          </div>
+
+          <div className="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-4 dark:bg-blue-900/20 dark:border-blue-500/50">
+            <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-300 mb-2">
+              Why does this matter?
+            </h4>
+            <ul className="text-sm text-blue-800 dark:text-blue-300 space-y-1">
+              <li className="flex items-start">
+                <span className="mr-2">•</span>
+                <span><strong>Student:</strong> Resume prioritizes Education first, then Skills and Projects. Best for current college students.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="mr-2">•</span>
+                <span><strong>Fresher:</strong> Resume emphasizes Skills and Projects before Education. Ideal for recent graduates entering the job market.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="mr-2">•</span>
+                <span><strong>Experienced:</strong> Resume highlights Work Experience and Projects. Suitable for professionals with 1+ years of experience.</span>
+              </li>
+            </ul>
           </div>
         </div>
       ),
