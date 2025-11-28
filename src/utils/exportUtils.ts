@@ -441,17 +441,25 @@ function drawSectionTitle(state: PageState, title: string, PDF_CONFIG: any): num
   if (!checkPageSpace(state, estimatedSectionHeaderHeight, PDF_CONFIG)) {
       addNewPage(state, PDF_CONFIG);
   }
-  const titleHeight = drawText(state, title.toUpperCase(), PDF_CONFIG.margins.left, PDF_CONFIG, {
-    fontSize: PDF_CONFIG.fonts.sectionTitle.size,
-    fontWeight: PDF_CONFIG.fonts.sectionTitle.weight,
-    color: PDF_CONFIG.colors.primary
-  });
-  const underlineY = state.currentY - (PDF_CONFIG.fonts.sectionTitle.size * 0.2); // Changed from 0.3 to 0.2
-  state.doc.setDrawColor(64, 64, 64); // Changed from 128, 128, 128 to 64, 64, 64
+
+  // Ensure bold font is explicitly set for section titles
+  state.doc.setFont(PDF_CONFIG.fontFamily, 'bold');
+  state.doc.setFontSize(PDF_CONFIG.fonts.sectionTitle.size);
+  state.doc.setTextColor(PDF_CONFIG.colors.primary[0], PDF_CONFIG.colors.primary[1], PDF_CONFIG.colors.primary[2]);
+
+  const titleText = title.toUpperCase();
+  state.doc.text(titleText, PDF_CONFIG.margins.left, state.currentY);
+
+  const lineHeight = PDF_CONFIG.fonts.sectionTitle.size * PDF_CONFIG.spacing.lineHeight * 0.352778;
+  state.currentY += lineHeight;
+
+  const underlineY = state.currentY - (PDF_CONFIG.fonts.sectionTitle.size * 0.2);
+  state.doc.setDrawColor(64, 64, 64);
   state.doc.setLineWidth(0.5);
   state.doc.line(PDF_CONFIG.margins.left, underlineY, PDF_CONFIG.margins.left + PDF_CONFIG.contentWidth, underlineY);
   state.currentY += PDF_CONFIG.spacing.sectionSpacingAfter;
-  return titleHeight + PDF_CONFIG.spacing.sectionSpacingBefore + PDF_CONFIG.spacing.sectionSpacingAfter;
+
+  return lineHeight + PDF_CONFIG.spacing.sectionSpacingBefore + PDF_CONFIG.spacing.sectionSpacingAfter;
 }
 
 // Draw contact information with vertical bars as separators

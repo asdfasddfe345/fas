@@ -215,7 +215,7 @@ SECTION ORDER FOR FRESHERS:
   const promptContent = `${getPromptForUserType(userType)}
 
 CRITICAL REQUIREMENTS FOR BULLET POINTS:
-1. Each bullet point MUST be concise, containing up to 20 words.
+1. Each bullet point MUST be concise, containing maximum 10 words.
 2. Include at least 30 relevant keywords from the job description across all bullet points.
 3. Use STRONG ACTION VERBS only (no weak verbs like "helped", "assisted", "worked on", "was responsible for", "participated in", "involved in", "contributed to")
 4. Start each bullet with powerful verbs like: Developed, Implemented, Architected, Optimized, Engineered, Designed, Led, Managed, Created, Built, Delivered, Achieved, Increased, Reduced, Streamlined, Automated, Transformed, Executed, Spearheaded, Established
@@ -321,7 +321,7 @@ KEYWORD FREQUENCY REQUIREMENTS:
 WORD COUNT REQUIREMENTS (STRICT):
 1. Professional Summary: 40-60 words
 2. Career Objective: 30-50 words
-3. Each bullet point: 12-18 words
+3. Each bullet point: maximum 10 words
 4. Total resume target: 400-650 words
 5. DO NOT exceed these limits
 
@@ -657,7 +657,7 @@ CONTEXT:
 - User Type: ${sectionData.userType}
 
 CRITICAL ATS OPTIMIZATION RULES:
-1. Each bullet point MUST be 2 lines and between 15-20 words.
+1. Each bullet point MUST be concise with maximum 10 words.
 2. Start each bullet with STRONG ACTION VERBS (Developed, Implemented, Led, Managed, Optimized, Achieved, Increased, Reduced)
 3. NO weak verbs (helped, assisted, worked on, responsible for)
 4. Include quantifiable achievements and metrics
@@ -683,7 +683,7 @@ CONTEXT:
 - User Type: ${sectionData.userType}
 
 CRITICAL ATS OPTIMIZATION RULES:
-1. Each bullet point MUST be 2 lines and between 15-20 words.
+1. Each bullet point MUST be concise with maximum 10 words.
 2. Start with STRONG ACTION VERBS (Developed, Built, Implemented, Designed, Created, Architected)
 3. Include specific technologies mentioned in tech stack
 4. Focus on technical achievements and impact
@@ -709,7 +709,7 @@ CONTEXT:
 - User Type: ${sectionData.userType}
 
 CRITICAL ATS OPTIMIZATION RULES:
-1. Each bullet point MUST be 2 lines and between 15-20 words.
+1. Each bullet point MUST be concise with maximum 10 words.
 2. Start with STRONG ACTION VERBS (e.g., Awarded, Recognized, Achieved, Led, Volunteered, Fluent in)
 3. Focus on achievements, contributions, or relevant details for the section type
 4. Use industry-standard keywords where applicable
@@ -924,7 +924,7 @@ Generate exactly 3 concise bullet points for work experience based on:
 - User Type: ${sectionData.userType}
 
 CRITICAL ATS OPTIMIZATION RULES:
-1. Each bullet point MUST be 2 lines and between 15-20 words.
+1. Each bullet point MUST be concise with maximum 10 words.
 2. Start each bullet with STRONG ACTION VERBS (Developed, Implemented, Led, Managed, Optimized, Achieved, Increased, Reduced)
 3. NO weak verbs (helped, assisted, worked on, responsible for)
 4. Include quantifiable achievements and metrics
@@ -945,7 +945,7 @@ Generate exactly 3 concise bullet points for a project based on:
 - User Type: ${sectionData.userType}
 
 CRITICAL ATS OPTIMIZATION RULES:
-1. Each bullet point MUST be 2 lines and between 15-20 words.
+1. Each bullet point MUST be concise with maximum 10 words.
 2. Start with STRONG ACTION VERBS (Developed, Built, Implemented, Designed, Created, Architected)
 3. Include specific technologies mentioned in tech stack
 4. Focus on technical achievements and impact
@@ -965,7 +965,7 @@ Generate exactly 3 concise bullet points for a custom resume section based on:
 - User Type: ${sectionData.userType}
 
 CRITICAL ATS OPTIMIZATION RULES:
-1. Each bullet point MUST be 2 lines and between 15-20 words.
+1. Each bullet point MUST be concise with maximum 10 words.
 2. Start with STRONG ACTION VERBS (e.g., Awarded, Recognized, Achieved, Led, Volunteered, Fluent in)
 3. Focus on achievements, contributions, or relevant details for the section type
 4. Use industry-standard keywords where applicable
@@ -1018,7 +1018,7 @@ Generate exactly 4 quantified achievements based on:
 - Context: ${sectionData.context || 'General professional achievements'}
 
 CRITICAL REQUIREMENTS:
-1. Each achievement MUST be 2 lines and between 15-20 words.
+1. Each achievement MUST be concise with maximum 10 words.
 2. Start with strong action verbs (Achieved, Increased, Led, Improved, etc.)
 3. Focus on results and impact, not just activities
 4. Make achievements relevant to the target role

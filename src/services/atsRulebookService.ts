@@ -70,8 +70,8 @@ export class ATSRulebookService {
     totalWordCountMax: 650,
     summaryWordCountMin: 40,
     summaryWordCountMax: 60,
-    bulletWordCountMin: 12,
-    bulletWordCountMax: 18,
+    bulletWordCountMin: 5,
+    bulletWordCountMax: 10,
     minMetricPercentage: 75,
     keywordRepetitionMin: 4,
     keywordRepetitionMax: 6
