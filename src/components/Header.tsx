@@ -2,9 +2,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FileText, User, LogOut, Menu, X, Loader2, Sparkles, Shield, Settings } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { AuthModal } from './auth/AuthModal';
 import { DeviceManagement } from './security/DeviceManagement';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
   children?: React.ReactNode;
@@ -20,6 +21,7 @@ export const Header: React.FC<HeaderProps> = ({
   onShowProfile
 }) => {
   const { user, isAuthenticated, logout, isLoading } = useAuth();
+  const { isChristmasMode, toggleChristmasMode } = useTheme();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showDeviceManagement, setShowDeviceManagement] = useState(false);
@@ -84,7 +86,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <>
-      <header className="bg-white/95 backdrop-blur-sm shadow-sm border-b border-secondary-200 sticky top-0 z-40 dark:bg-dark-50/95 dark:border-dark-300">
+      <header className="bg-slate-900/60 backdrop-blur-xl shadow-lg border-b border-slate-800/50 sticky top-0 z-40">
         <div className="container-responsive">
           <div className="flex items-center justify-between h-14 sm:h-16">
             {/* Logo */}
@@ -97,16 +99,33 @@ export const Header: React.FC<HeaderProps> = ({
                 />
               </div>
               <div className="hidden xs:block">
-                <h1 className="text-lg sm:text-xl font-bold text-secondary-900 dark:text-gray-100">PrimoBoost AI</h1>
+                <h1 className="text-lg sm:text-xl font-bold text-white">PrimoBoost AI</h1>
               </div>
               <div className="xs:hidden">
-                <h1 className="text-base font-bold text-secondary-900 dark:text-gray-100">PrimoBoost AI</h1>
+                <h1 className="text-base font-bold text-white">PrimoBoost AI</h1>
               </div>
             </div>
 
             {/* Desktop Navigation and Auth */}
             <div className="hidden lg:flex items-center space-x-4">
               {children}
+
+              {/* Christmas Mode Toggle */}
+              <button
+                onClick={toggleChristmasMode}
+                className={`group relative flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
+                  isChristmasMode
+                    ? 'bg-gradient-to-r from-red-500/20 to-green-500/20 border border-red-400/40 hover:border-red-400/60'
+                    : 'bg-slate-800/50 border border-slate-700 hover:border-emerald-400/50'
+                }`}
+              >
+                <span className="text-xl">{isChristmasMode ? '❄️' : '🎄'}</span>
+                <span className={`text-sm font-medium ${
+                  isChristmasMode ? 'text-red-300' : 'text-slate-300'
+                }`}>
+                  {isChristmasMode ? 'Festive' : 'Holiday'}
+                </span>
+              </button>
 
               {isAuthenticated && user ? (
                 <div className="relative" ref={userMenuRef}>
@@ -115,16 +134,24 @@ export const Header: React.FC<HeaderProps> = ({
                       console.log('Profile button clicked. Current showUserMenu:', showUserMenu, 'New state:', !showUserMenu);
                       setShowUserMenu(!showUserMenu);
                     }}
-                    className="flex items-center space-x-3 bg-gradient-to-r from-secondary-50 to-secondary-100 hover:from-secondary-100 hover:to-secondary-200 rounded-full px-4 py-1 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-neon-cyan-500 border border-secondary-200 shadow-sm  dark:from-dark-200 dark:to-dark-300 dark:hover:from-dark-300 dark:hover:to-dark-400 dark:border-dark-400"
+                    className={`flex items-center space-x-3 rounded-full px-4 py-1 transition-all duration-200 focus:outline-none focus:ring-2 border shadow-sm ${
+                      isChristmasMode
+                        ? 'bg-slate-800/50 hover:bg-slate-800/70 border-green-500/30 focus:ring-green-400'
+                        : 'bg-slate-800/50 hover:bg-slate-800/70 border-emerald-500/30 focus:ring-emerald-400'
+                    }`}
                   >
-                    <div className="bg-gradient-to-br from-neon-cyan-500 to-neon-blue-500 w-9 h-9 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-md">
+                    <div className={`w-9 h-9 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-md ${
+                      isChristmasMode
+                        ? 'bg-gradient-to-br from-red-500 to-green-600'
+                        : 'bg-gradient-to-br from-emerald-500 to-cyan-500'
+                    }`}>
                       {getUserInitials()}
                     </div>
                     <div className="text-left">
-                      <p className="text-sm font-semibold text-secondary-900 dark:text-gray-100">
+                      <p className="text-sm font-semibold text-white">
                          {getUserDisplayName()}!
                       </p>
-                     
+
                     </div>
                   </button>
 
@@ -183,9 +210,11 @@ export const Header: React.FC<HeaderProps> = ({
                 <button
                   onClick={() => setShowAuthModal(true)}
                   disabled={showLoadingSpinner}
-                  className={`btn-primary px-6 py-2.5 rounded-xl flex items-center space-x-2 shadow-lg hover:shadow-neon-cyan active:scale-[0.98] ${
-                    showLoadingSpinner ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
+                  className={`px-6 py-2.5 rounded-xl flex items-center space-x-2 shadow-lg transition-all duration-300 font-semibold ${
+                    isChristmasMode
+                      ? 'bg-gradient-to-r from-red-500 via-emerald-500 to-green-600 hover:shadow-green-500/50 text-white'
+                      : 'bg-gradient-to-r from-emerald-500 to-cyan-500 hover:shadow-emerald-500/50 text-white'
+                  } ${showLoadingSpinner ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-[0.98]'}`}
                 >
                   {showLoadingSpinner ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
