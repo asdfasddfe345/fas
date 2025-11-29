@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { Card } from "../common/Card";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../../contexts/ThemeContext";
+import { AnimatedCard, GradientButton, FloatingParticles, ChristmasSnow } from "../ui";
 
 const values = [
   {
@@ -38,6 +40,7 @@ const values = [
 
 export const AboutUs: React.FC = () => {
   const navigate = useNavigate();
+  const { isChristmasMode, colors } = useTheme();
 
   const stats = [
     { number: "50,000+", label: "Resumes Optimized", icon: <TrendingUp className="w-5 h-5" />, microcopy: "Trusted by 50,000+ professionals" },
@@ -74,57 +77,88 @@ export const AboutUs: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-dark-50 dark:to-dark-200 transition-colors duration-300">
+    <div className={`min-h-screen relative overflow-hidden ${
+      isChristmasMode
+        ? 'bg-gradient-to-b from-[#1a0a0f] via-[#0f1a0f] to-[#070b14]'
+        : 'bg-gradient-to-b from-[#0a1e1e] via-[#0d1a1a] to-[#070b14]'
+    }`}>
+      {/* Radial Glow Overlay */}
+      <div className={`pointer-events-none absolute inset-0 ${
+        isChristmasMode
+          ? 'bg-[radial-gradient(ellipse_at_top,rgba(220,38,38,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(34,197,94,0.15),transparent_50%)]'
+          : 'bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.15),transparent_50%)]'
+      }`} />
+
+      {/* Floating Particles */}
+      <FloatingParticles count={15} />
+
+      {/* Christmas Snow */}
+      {isChristmasMode && <ChristmasSnow count={30} />}
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-700 text-white dark:from-dark-100 dark:to-dark-300">
-        <div className="absolute inset-0 bg-black/30 dark:bg-black/40" />
-        <div className="relative container-responsive py-16 sm:py-20">
+      <div className="relative z-10 overflow-hidden">
+        <div className="container-responsive py-16 sm:py-20">
           <div className="text-center max-w-4xl mx-auto space-y-6">
-            <div className="bg-white/10 backdrop-blur-sm w-16 h-16 sm:w-20 sm:h-20 rounded-3xl flex items-center justify-center mx-auto shadow-lg dark:bg-neon-cyan-500/20 dark:shadow-neon-cyan">
+            <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-3xl flex items-center justify-center mx-auto shadow-2xl ${
+              isChristmasMode
+                ? 'bg-gradient-to-br from-red-500 via-pink-500 to-rose-600 shadow-red-500/50'
+                : 'bg-gradient-to-br from-emerald-500 to-cyan-500 shadow-emerald-500/50'
+            }`}>
               <Heart className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-[30px] sm:text-[36px] lg:text-[44px] font-bold leading-tight">
-              Empowering Careers with
-              <span className="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent dark:from-neon-cyan-300 dark:to-neon-blue-300">
+            <h1 className="text-[36px] sm:text-[48px] lg:text-[56px] font-bold leading-tight tracking-tight text-white">
+              Empowering Careers with{' '}
+              <span className={`block bg-gradient-to-r bg-clip-text text-transparent ${
+                isChristmasMode
+                  ? 'from-red-400 via-yellow-400 to-green-400'
+                  : 'from-emerald-400 via-cyan-400 to-teal-400'
+              }`}>
                 AI Innovation
               </span>
             </h1>
-            <p className="text-base sm:text-lg text-blue-100 dark:text-gray-300 leading-relaxed max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto">
               We're on a mission to help professionals land their dream jobs through intelligent resume optimization and career guidance.
             </p>
-            <div className="inline-flex items-center justify-center bg-white/10 backdrop-blur-sm px-5 py-3 rounded-full border border-white/20 dark:bg-neon-cyan-500/20 dark:border-neon-cyan-400/30">
-              <span className="text-sm sm:text-base font-semibold">Trusted by 50,000+ professionals</span>
+            <div className={`inline-flex items-center justify-center backdrop-blur-sm px-5 py-3 rounded-full border ${
+              isChristmasMode
+                ? 'bg-green-500/10 border-green-400/30'
+                : 'bg-emerald-500/10 border-emerald-400/30'
+            }`}>
+              <span className="text-sm sm:text-base font-semibold text-white">Trusted by 50,000+ professionals</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Stats Section */}
-      <section className="py-12 sm:py-14 bg-white dark:bg-dark-100">
+      <section className="relative z-10 py-12 sm:py-14">
         <div className="container-responsive">
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {stats.map((stat, index) => (
-              <Card key={index} padding="md" className="flex items-start gap-3 sm:gap-4 text-left">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-700 dark:bg-dark-200 dark:text-white">
+              <AnimatedCard key={index} glow hoverLift={6} delay={index * 0.1} className="flex items-start gap-3 sm:gap-4 text-left p-4">
+                <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${
+                  isChristmasMode
+                    ? 'bg-gradient-to-br from-red-500/20 to-green-500/20 text-green-400'
+                    : 'bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 text-emerald-400'
+                }`}>
                   {stat.icon}
                 </div>
                 <div className="space-y-1">
-                  <div className="text-xl font-bold text-gray-900 dark:text-gray-100">{stat.number}</div>
-                  <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">{stat.label}</div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{stat.microcopy}</p>
+                  <div className="text-xl font-bold text-white">{stat.number}</div>
+                  <div className="text-sm font-semibold text-slate-300">{stat.label}</div>
+                  <p className="text-xs text-slate-400 leading-relaxed">{stat.microcopy}</p>
                 </div>
-              </Card>
+              </AnimatedCard>
             ))}
           </div>
         </div>
       </section>
 
       {/* Our Story Section */}
-      <section className="py-14 sm:py-16 bg-gradient-to-r from-gray-50 to-blue-50 dark:from-dark-200 dark:to-dark-300">
+      <section className="relative z-10 py-14 sm:py-16">
         <div className="container-responsive max-w-6xl">
           <div className="text-center mb-10 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-3">Our Story</h2>
-            <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">Our Story</h2>
+            <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
               Born from the frustration of being overlooked by ATS filters, PrimoBoost AI was built to make hiring fairer and faster for every serious job seeker.
             </p>
           </div>

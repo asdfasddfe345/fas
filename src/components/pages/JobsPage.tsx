@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
+import { AnimatedCard, GradientButton, SectionHeader, FloatingParticles, ChristmasSnow } from '../ui';
 import { JobListing, JobFilters, OptimizedResume } from '../../types/jobs';
 import { jobsService } from '../../services/jobsService';
 import { JobCard } from '../jobs/JobCard';
@@ -44,6 +46,7 @@ export const JobsPage: React.FC<JobsPageProps> = ({
 }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { isChristmasMode, colors } = useTheme();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [jobs, setJobs] = useState<JobListing[]>([]);
@@ -269,78 +272,108 @@ export const JobsPage: React.FC<JobsPageProps> = ({
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-dark-50 dark:to-dark-200 transition-colors duration-300">
+    <div className={`min-h-screen relative overflow-hidden ${
+      isChristmasMode
+        ? 'bg-gradient-to-b from-[#1a0a0f] via-[#0f1a0f] to-[#070b14]'
+        : 'bg-gradient-to-b from-[#0a1e1e] via-[#0d1a1a] to-[#070b14]'
+    }`}>
+      {/* Radial Glow Overlay */}
+      <div className={`pointer-events-none absolute inset-0 ${
+        isChristmasMode
+          ? 'bg-[radial-gradient(ellipse_at_top,rgba(220,38,38,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(34,197,94,0.15),transparent_50%)]'
+          : 'bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.15),transparent_50%)]'
+      }`} />
+
+      {/* Floating Particles */}
+      <FloatingParticles count={12} />
+
+      {/* Christmas Snow */}
+      {isChristmasMode && <ChristmasSnow count={30} />}
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40 dark:bg-dark-50 dark:border-dark-300">
-        <div className="w-full max-w-full mx-auto px-0 sm:px-0">
+      <div className="bg-slate-900/60 backdrop-blur-xl shadow-lg border-b border-slate-800/50 sticky top-0 z-40">
+        <div className="w-full max-w-full mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16 py-3">
-            <button
+            <GradientButton
               onClick={() => navigate('/')}
-              className="bg-gradient-to-r from-neon-cyan-500 to-neon-blue-500 text-white hover:from-neon-cyan-400 hover:to-neon-blue-400 py-3 px-5 rounded-xl inline-flex items-center space-x-2 transition-all duration-200"
+              variant="primary"
+              size="sm"
+              icon={ArrowLeft}
             >
-              <ArrowLeft className="w-5 h-5" />
               <span className="hidden sm:block">Back to Home</span>
-            </button>
-            <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Explore Jobs</h1>
+            </GradientButton>
+            <h1 className="text-lg font-semibold text-white">Explore Jobs</h1>
             <div className="w-24"></div>
           </div>
         </div>
       </div>
 
-      <div className="w-full max-w-full mx-auto px-0 sm:px-0 py-8">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 py-12">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+          <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg ${
+            isChristmasMode
+              ? 'bg-gradient-to-br from-red-500 via-emerald-500 to-green-600 shadow-green-500/50'
+              : 'bg-gradient-to-br from-emerald-500 to-cyan-500 shadow-emerald-500/50'
+          }`}>
             <Briefcase className="w-10 h-10 text-white" />
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            {showingRecommendations ? 'Your Recommended Jobs' : 'Find Your Dream Job'}
+          <h1 className="text-5xl font-bold text-white mb-4 tracking-tight">
+            {showingRecommendations ? (
+              'Your Recommended Jobs'
+            ) : (
+              <>
+                Find Your{' '}
+                <span className={`bg-gradient-to-r bg-clip-text text-transparent ${
+                  isChristmasMode
+                    ? 'from-red-400 via-green-400 to-emerald-400'
+                    : 'from-emerald-400 via-cyan-400 to-teal-400'
+                }`}>
+                  Dream Job
+                </span>
+              </>
+            )}
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-300 max-w-3xl mx-auto">
             {showingRecommendations
               ? 'AI-powered recommendations based on your profile and preferences'
               : 'Discover opportunities, apply with AI-optimized resumes, and track your applications all in one place.'}
           </p>
 
           {hasCompletedOnboarding && (
-            <div className="flex items-center justify-center space-x-4 mt-6">
-              <button
+            <div className="flex items-center justify-center flex-wrap gap-4 mt-6">
+              <GradientButton
                 onClick={() => setShowingRecommendations(!showingRecommendations)}
-                className={`px-6 py-3 rounded-xl font-semibold transition-all shadow-lg ${
-                  showingRecommendations
-                    ? 'bg-gradient-to-r from-green-600 to-teal-600 text-white'
-                    : 'bg-white dark:bg-dark-100 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-dark-300'
-                } hover:scale-105`}
+                variant={showingRecommendations ? 'primary' : 'secondary'}
+                size="md"
+                icon={Sparkles}
               >
-                <div className="flex items-center space-x-2">
-                  <Sparkles className="w-5 h-5" />
-                  <span>{showingRecommendations ? 'Showing AI Matches' : 'Show AI Matches'}</span>
-                  {aiRecommendations.length > 0 && (
-                    <span className="bg-white/20 px-2 py-0.5 rounded-full text-sm">
-                      {aiRecommendations.length}
-                    </span>
-                  )}
-                </div>
-              </button>
-              <button
+                <span>{showingRecommendations ? 'Showing AI Matches' : 'Show AI Matches'}</span>
+                {aiRecommendations.length > 0 && (
+                  <span className="ml-2 bg-white/20 px-2 py-0.5 rounded-full text-sm">
+                    {aiRecommendations.length}
+                  </span>
+                )}
+              </GradientButton>
+
+              <GradientButton
                 onClick={handleRefreshRecommendations}
                 disabled={loadingRecommendations}
-                className="px-4 py-3 rounded-xl font-semibold bg-white dark:bg-dark-100 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-dark-300 hover:scale-105 transition-all shadow-lg disabled:opacity-50 flex items-center space-x-2"
-                title="Refresh AI recommendations"
+                variant="secondary"
+                size="md"
+                icon={RefreshCw}
+                className={loadingRecommendations ? 'animate-spin' : ''}
               >
-                <RefreshCw className={`w-5 h-5 ${loadingRecommendations ? 'animate-spin' : ''}`} />
                 <span className="hidden sm:inline">Refresh</span>
-              </button>
+              </GradientButton>
 
-              <button
+              <GradientButton
                 onClick={() => setShowOnboarding(true)}
-                className="px-4 py-3 rounded-xl font-semibold bg-white dark:bg-dark-100 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-dark-300 hover:scale-105 transition-all shadow-lg flex items-center space-x-2"
-                title="Update preferences"
+                variant="secondary"
+                size="md"
               >
                 ⚙️
                 <span className="hidden sm:inline">Preferences</span>
-              </button>
-
+              </GradientButton>
             </div>
           )}
         </div>
@@ -348,19 +381,23 @@ export const JobsPage: React.FC<JobsPageProps> = ({
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {stats.map((stat, index) => (
-            <motion.div
+            <AnimatedCard
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white rounded-xl shadow-lg p-4 text-center border border-gray-200 dark:bg-dark-100 dark:border-dark-300"
+              glow
+              hoverLift={8}
+              delay={index * 0.1}
+              className="p-6 text-center"
             >
-              <div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
+              <div className={`w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3 ${
+                isChristmasMode
+                  ? 'bg-gradient-to-br from-red-500/20 to-green-500/20 text-green-400'
+                  : 'bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 text-emerald-400'
+              }`}>
                 {stat.icon}
               </div>
-              <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stat.value}</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
-            </motion.div>
+              <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
+              <div className="text-sm text-slate-400">{stat.label}</div>
+            </AnimatedCard>
           ))}
         </div>
 
@@ -375,24 +412,25 @@ export const JobsPage: React.FC<JobsPageProps> = ({
 
         {/* Error State */}
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-6 mb-8 dark:bg-red-900/20 dark:border-red-500/50">
+          <AnimatedCard className="p-6 mb-8 border-red-500/50 bg-red-900/20">
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <AlertCircle className="w-6 h-6 text-red-600 dark:text-red-400 mr-3" />
+                <AlertCircle className="w-6 h-6 text-red-400 mr-3" />
                 <div>
-                  <h3 className="text-lg font-semibold text-red-800 dark:text-red-300">Error Loading Jobs</h3>
-                  <p className="text-red-700 dark:text-red-400">{error}</p>
+                  <h3 className="text-lg font-semibold text-red-300">Error Loading Jobs</h3>
+                  <p className="text-red-400">{error}</p>
                 </div>
               </div>
-              <button
+              <GradientButton
                 onClick={() => loadJobs(0)}
-                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2"
+                variant="secondary"
+                size="sm"
+                icon={RefreshCw}
               >
-                <RefreshCw className="w-4 h-4" />
-                <span>Retry</span>
-              </button>
+                Retry
+              </GradientButton>
             </div>
-          </div>
+          </AnimatedCard>
         )}
 
         {/* Jobs Grid */}

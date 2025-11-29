@@ -21,8 +21,10 @@ import {
   Wrench // Added Wrench icon for Resume Fix Pack
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
+import { AnimatedCard, GradientButton, SectionHeader, FloatingParticles, ChristmasSnow } from '../ui';
 import { paymentService } from '../../services/paymentService';
-import { SubscriptionPlan } from '../../types/payment'; // Import SubscriptionPlan
+import { SubscriptionPlan } from '../../types/payment';
 
 interface PricingPageProps {
   onShowAuth: () => void;
@@ -34,6 +36,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({
   onShowSubscriptionPlans
 }) => {
   const { isAuthenticated } = useAuth();
+  const { isChristmasMode, colors } = useTheme();
   const plans: SubscriptionPlan[] = paymentService.getPlans();
 
   // Countdown Timer State
@@ -90,22 +93,45 @@ export const PricingPage: React.FC<PricingPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-dark-50 dark:to-dark-200 transition-colors duration-300">
+    <div className={`min-h-screen relative overflow-hidden ${
+      isChristmasMode
+        ? 'bg-gradient-to-b from-[#1a0a0f] via-[#0f1a0f] to-[#070b14]'
+        : 'bg-gradient-to-b from-[#0a1e1e] via-[#0d1a1a] to-[#070b14]'
+    }`}>
+      {/* Radial Glow Overlay */}
+      <div className={`pointer-events-none absolute inset-0 ${
+        isChristmasMode
+          ? 'bg-[radial-gradient(ellipse_at_top,rgba(220,38,38,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(34,197,94,0.15),transparent_50%)]'
+          : 'bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.15),transparent_50%)]'
+      }`} />
+
+      {/* Floating Particles */}
+      <FloatingParticles count={15} />
+
+      {/* Christmas Snow */}
+      {isChristmasMode && <ChristmasSnow count={40} />}
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-700 text-white dark:from-neon-cyan-500 dark:to-neon-purple-500">
-        <div className="absolute inset-0 bg-black/20 dark:bg-black/40"></div>
-        <div className="relative container mx-auto px-4 py-20 sm:py-32">
+      <div className="relative z-10 overflow-hidden">
+        <div className="container mx-auto px-4 py-20 sm:py-32">
           <div className="text-center max-w-4xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-sm w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-lg dark:bg-neon-cyan-500/20 dark:shadow-neon-cyan">
+            <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl ${
+              isChristmasMode
+                ? 'bg-gradient-to-br from-red-500 via-yellow-400 to-green-600 shadow-green-500/50'
+                : 'bg-gradient-to-br from-emerald-500 to-cyan-500 shadow-emerald-500/50'
+            }`}>
               <Crown className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              Choose Your
-              <span className="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent dark:from-neon-cyan-300 dark:to-neon-blue-300">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white tracking-tight">
+              Choose Your{' '}
+              <span className={`block bg-gradient-to-r bg-clip-text text-transparent ${
+                isChristmasMode
+                  ? 'from-red-400 via-yellow-400 to-green-400'
+                  : 'from-emerald-400 via-cyan-400 to-teal-400'
+              }`}>
                 Success Plan
               </span>
             </h1>
-            <p className="text-xl sm:text-2xl text-blue-100 dark:text-gray-200 mb-8 leading-relaxed">
+            <p className="text-xl sm:text-2xl text-slate-300 mb-8 leading-relaxed">
               Flexible pricing for every career stage. Start free, upgrade when you need more power.
             </p>
           </div>
@@ -113,11 +139,15 @@ export const PricingPage: React.FC<PricingPageProps> = ({
       </div>
 
       {/* Pricing Plans Section */}
-      <div className="py-16 bg-gradient-to-r from-gray-50 to-blue-50 dark:from-dark-200 dark:to-dark-300">
+      <div className="relative z-10 py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-7xl mx-auto">
             {/* Countdown Banner */}
-            <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-xl p-4 sm:p-6 text-center mb-12 shadow-lg">
+            <AnimatedCard glow className={`p-4 sm:p-6 text-center mb-12 ${
+              isChristmasMode
+                ? 'bg-gradient-to-r from-red-600 to-green-600 border-red-500/50'
+                : 'bg-gradient-to-r from-orange-600 to-red-600 border-orange-500/50'
+            }`}>
               <p className="text-lg sm:text-xl font-bold mb-2">Launch Offer 🎉</p>
               {timerComponents.length ? (
                 <div className="flex justify-center items-center">
@@ -128,19 +158,26 @@ export const PricingPage: React.FC<PricingPageProps> = ({
               ) : (
                 <span className="text-xl sm:text-2xl font-bold">Offer has ended!</span>
               )}
-            </div>
+            </AnimatedCard>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {plans.map((plan) => (
-                <div
+              {plans.map((plan, index) => (
+                <AnimatedCard
                   key={plan.id}
-                  className={`relative rounded-2xl border-2 transition-all duration-300 hover:scale-105 ${
-                    plan.popular ? 'border-blue-500 shadow-2xl shadow-blue-500/20 ring-4 ring-blue-100' : 'border-gray-200 hover:border-blue-300'
-                  } dark:border-dark-300 dark:hover:border-neon-cyan-400 dark:bg-dark-100`}
+                  glow={plan.popular}
+                  hoverLift={plan.popular ? 12 : 8}
+                  delay={index * 0.1}
+                  className={`relative ${
+                    plan.popular ? 'ring-2 ring-emerald-400/50 shadow-emerald-glow-lg' : ''
+                  }`}
                 >
                   {plan.popular && (
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                      <span className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                      <span className={`px-6 py-2 rounded-full text-sm font-bold shadow-lg animate-pulse ${
+                        isChristmasMode
+                          ? 'bg-gradient-to-r from-red-500 to-green-500'
+                          : 'bg-gradient-to-r from-emerald-500 to-cyan-500'
+                      } text-white`}>
                         {plan.id === 'career_boost_plus' ? 'Most Popular' : 'Best Value'}
                       </span>
                     </div>
@@ -151,54 +188,58 @@ export const PricingPage: React.FC<PricingPageProps> = ({
                       <div className={`bg-gradient-to-r ${plan.gradient} w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 text-white shadow-lg`}>
                         {getPlanIcon(plan.icon)}
                       </div>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">{plan.name}</h3>
-                      <p className="text-gray-600 dark:text-gray-300 mb-4">{plan.optimizations} Credits</p>
+                      <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
+                      <p className="text-slate-300 mb-4">{plan.optimizations} Credits</p>
 
                       {/* Price Display */}
                       <div className="flex flex-col items-center mb-2">
-                        <span className="text-sm text-red-500 line-through">₹{plan.mrp}</span>
+                        <span className="text-sm text-red-400 line-through">₹{plan.mrp}</span>
                         <div className="flex items-center">
-                          <span className="text-4xl font-bold text-gray-900 dark:text-gray-100">₹{plan.price}</span>
-                          <span className="ml-2 px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold">
+                          <span className="text-4xl font-bold text-white">₹{plan.price}</span>
+                          <span className={`ml-2 px-2 py-1 rounded-full text-xs font-bold ${
+                            isChristmasMode
+                              ? 'bg-green-500/20 text-green-300 border border-green-500/50'
+                              : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50'
+                          }`}>
                             {plan.discountPercentage}% OFF
                           </span>
                         </div>
                       </div>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm">One-time purchase</p>
+                      <p className="text-slate-400 text-sm">One-time purchase</p>
                     </div>
 
                     <ul className="space-y-4 mb-8">
-                      {plan.features.map((feature, index) => (
-                        <li key={index} className="flex items-start">
-                          <Check className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                          <span className="text-gray-700 dark:text-gray-300">{feature}</span>
+                      {plan.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-start">
+                          <Check className={`w-5 h-5 mr-3 mt-0.5 flex-shrink-0 ${
+                            isChristmasMode ? 'text-green-400' : 'text-emerald-400'
+                          }`} />
+                          <span className="text-slate-300">{feature}</span>
                         </li>
                       ))}
                     </ul>
 
-                    <button
+                    <GradientButton
                       onClick={() => {
                         if (isAuthenticated) {
-                          onShowSubscriptionPlans(plan.id, false); // Pass plan.id and false for expandAddons
+                          onShowSubscriptionPlans(plan.id, false);
                         } else {
                           onShowAuth();
                         }
                       }}
-                      className={`w-full py-4 px-6 rounded-xl font-semibold transition-all duration-300 ${
-                        plan.popular
-                          ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-dark-200 dark:text-gray-300 dark:hover:bg-dark-300'
-                      }`}
+                      variant={plan.popular ? 'primary' : 'secondary'}
+                      size="lg"
+                      className="w-full"
                     >
                       {isAuthenticated ? 'Select Plan' : 'Sign Up & Select'}
-                    </button>
+                    </GradientButton>
                   </div>
-                </div>
+                </AnimatedCard>
               ))}
             </div>
 
             {/* Microcopy below buttons */}
-            <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-8">
+            <p className="text-center text-sm text-slate-400 mt-8">
               Inclusive of GST where applicable. Limited-time launch offer.
             </p>
           </div>
@@ -206,23 +247,27 @@ export const PricingPage: React.FC<PricingPageProps> = ({
       </div>
 
       {/* Trust Strip */}
-      <div className="py-8 bg-white dark:bg-dark-100">
-        <div className="container mx-auto px-4 text-center">
-          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8">
-            <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
-              <Users className="w-5 h-5 text-blue-600" />
+      <div className="relative z-10 py-8">
+        <AnimatedCard glow className="container mx-auto px-4">
+          <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8 text-center">
+            <div className="flex items-center space-x-2 text-slate-300">
+              <Users className={`w-5 h-5 ${
+                isChristmasMode ? 'text-green-400' : 'text-emerald-400'
+              }`} />
               <span>Loved by 10,000+ job seekers</span>
             </div>
-            <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
-              <Star className="w-5 h-5 text-yellow-500 fill-current" />
+            <div className="flex items-center space-x-2 text-slate-300">
+              <Star className="w-5 h-5 text-yellow-400 fill-current" />
               <span>Avg. rating 4.8/5</span>
             </div>
-            <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
-              <CheckCircle className="w-5 h-5 text-green-600" />
+            <div className="flex items-center space-x-2 text-slate-300">
+              <CheckCircle className={`w-5 h-5 ${
+                isChristmasMode ? 'text-green-400' : 'text-emerald-400'
+              }`} />
               <span>ATS-friendly outputs</span>
             </div>
           </div>
-        </div>
+        </AnimatedCard>
       </div>
     </div>
   );
