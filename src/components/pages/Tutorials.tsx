@@ -20,7 +20,9 @@ import {
   ChevronDown,
   Sparkles,
 } from 'lucide-react';
+import { useTheme } from '../../contexts/ThemeContext';
 import { VideoModal } from '../VideoModal';
+import { AnimatedCard, GradientButton, FloatingParticles, ChristmasSnow } from '../ui';
 
 function cn(...classes: (string | undefined | null | false)[]) {
   return classes.filter(Boolean).join(' ');
@@ -62,6 +64,7 @@ const ModernButton = React.forwardRef<HTMLButtonElement, ModernButtonProps>(
 ModernButton.displayName = 'ModernButton';
 
 export const Tutorials: React.FC = () => {
+  const { isChristmasMode, colors } = useTheme();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [isVideoModalOpen, setIsVideoModal] = useState(false);
@@ -256,7 +259,19 @@ export const Tutorials: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 relative dark:from-dark-50 dark:to-dark-200 transition-colors duration-300">
+    <div className={`min-h-screen relative overflow-hidden ${
+      isChristmasMode
+        ? 'bg-gradient-to-b from-[#1a0a0f] via-[#0f1a0f] to-[#070b14]'
+        : 'bg-gradient-to-b from-[#0a1e1e] via-[#0d1a1a] to-[#070b14]'
+    }`}>
+      <div className={`pointer-events-none absolute inset-0 ${
+        isChristmasMode
+          ? 'bg-[radial-gradient(ellipse_at_top,rgba(220,38,38,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(34,197,94,0.15),transparent_50%)]'
+          : 'bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.15),transparent_50%)]'
+      }`} />
+      <FloatingParticles count={15} />
+      {isChristmasMode && <ChristmasSnow count={40} />}
+
       {/* Hero */}
       
 

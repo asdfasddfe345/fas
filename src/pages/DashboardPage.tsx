@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Clock, CreditCard, BookOpen, TrendingUp } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { AccessLog, Question } from '../types';
 import { supabaseStorage } from '../utils/supabaseStorage';
 import { Link } from 'react-router-dom';
@@ -8,6 +9,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 
 const DashboardPage: React.FC = () => {
   const { user } = useAuth();
+  const { isChristmasMode, colors } = useTheme();
   const [accessLogs, setAccessLogs] = useState<AccessLog[]>([]);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [activeAccess, setActiveAccess] = useState<AccessLog[]>([]);

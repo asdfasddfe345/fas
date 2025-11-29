@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import { webinarService } from '../../services/webinarService';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
+import { AnimatedCard, GradientButton, FloatingParticles, ChristmasSnow } from '../ui';
 import type { Webinar, WebinarFilters } from '../../types/webinar';
 
 type WebinarsPageProps = {
@@ -24,6 +26,7 @@ type WebinarsPageProps = {
 export const WebinarsPage: React.FC<WebinarsPageProps> = ({ onShowAuth }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { isChristmasMode, colors } = useTheme();
 
   const [webinars, setWebinars] = useState<Webinar[]>([]);
   const [myRegistrations, setMyRegistrations] = useState<any[]>([]);

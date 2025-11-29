@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { BookOpen, Download, ExternalLink } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
 import { Material } from '../types';
 import { supabaseStorage } from '../utils/supabaseStorage';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { AnimatedCard, FloatingParticles, ChristmasSnow } from '../components/ui';
 
 const MaterialsPage: React.FC = () => {
+  const { isChristmasMode, colors } = useTheme();
   const [materials, setMaterials] = useState<Material[]>([]);
   const [loading, setLoading] = useState(true);
 

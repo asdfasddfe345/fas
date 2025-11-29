@@ -25,8 +25,10 @@ import {
   Video,
   Send // Keep Send icon for the Apply Now button in the JobDetailsPage
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import { careersData } from '../../data/careersData'; // Import the new data file
+import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../../contexts/ThemeContext';
+import { careersData } from '../../data/careersData';
+import { AnimatedCard, GradientButton, FloatingParticles, ChristmasSnow } from '../ui';
 
 interface CareersPageProps {
   isAuthenticated: boolean;
@@ -35,6 +37,7 @@ interface CareersPageProps {
 
 export const CareersPage: React.FC<CareersPageProps> = ({ isAuthenticated, onShowAuth }) => {
   const navigate = useNavigate();
+  const { isChristmasMode, colors } = useTheme();
 
   const getDomainIcon = (domain: string) => {
     switch (domain) {

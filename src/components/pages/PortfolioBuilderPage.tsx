@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Upload, Loader2, CheckCircle, AlertCircle, ExternalLink, AlertTriangle, Info } from 'lucide-react';
+import { useTheme } from '../../contexts/ThemeContext';
 import { portfolioService } from '../../services/portfolioService';
 import { UserType, TemplateId, TEMPLATE_CONFIGS } from '../../types/portfolio';
+import { AnimatedCard, GradientButton, FloatingParticles, ChristmasSnow } from '../ui';
 
 interface PortfolioBuilderPageProps {
   isAuthenticated: boolean;
@@ -15,6 +17,7 @@ export const PortfolioBuilderPage: React.FC<PortfolioBuilderPageProps> = ({
   isAuthenticated,
   onShowAuth,
 }) => {
+  const { isChristmasMode, colors } = useTheme();
   const [step, setStep] = useState<'upload' | 'type' | 'template' | 'processing' | 'success'>('type');
   const [userType, setUserType] = useState<UserType>('fresher');
   const [targetRole, setTargetRole] = useState('');

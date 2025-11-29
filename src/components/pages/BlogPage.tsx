@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Search, Filter, Loader2, BookOpen } from 'lucide-react';
+import { useTheme } from '../../contexts/ThemeContext';
 import { blogService } from '../../services/blogService';
 import { BlogPostWithRelations, BlogCategory } from '../../types/blog';
 import { BlogPostCard } from '../blog/BlogPostCard';
 import { Breadcrumb } from '../common/Breadcrumb';
+import { AnimatedCard, FloatingParticles, ChristmasSnow } from '../ui';
 
 export const BlogPage: React.FC = () => {
+  const { isChristmasMode, colors } = useTheme();
   const [searchParams, setSearchParams] = useSearchParams();
   const [posts, setPosts] = useState<BlogPostWithRelations[]>([]);
   const [categories, setCategories] = useState<BlogCategory[]>([]);
