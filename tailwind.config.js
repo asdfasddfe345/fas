@@ -30,6 +30,24 @@ export default {
       },
       // Consistent color palette (3-4 primary colors)
       colors: {
+        'teal-dark': {
+          50: '#ecfeff',
+          100: '#cffafe',
+          200: '#a5f3fc',
+          300: '#67e8f9',
+          400: '#22d3ee',
+          500: '#06b6d4',
+          600: '#0891b2',
+          700: '#0e7490',
+          800: '#155e75',
+          900: '#0a1e1e',
+          950: '#06141a',
+        },
+        christmas: {
+          red: '#dc2626',
+          green: '#16a34a',
+          gold: '#fbbf24',
+        },
         primary: {
           50: '#F0F5FF',   // Lightest Indigo
           100: '#E0E7FF',
@@ -182,8 +200,19 @@ export default {
         'neon-blue': '0 0 20px rgba(59, 130, 246, 0.5)',
         'neon-purple': '0 0 20px rgba(168, 85, 247, 0.5)',
         'neon-pink': '0 0 20px rgba(236, 72, 153, 0.5)',
+        'emerald-glow': '0 0 40px rgba(16, 185, 129, 0.2)',
+        'emerald-glow-lg': '0 0 60px rgba(16, 185, 129, 0.3)',
+        'green-glow': '0 0 40px rgba(34, 197, 94, 0.25)',
+        'red-glow': '0 0 40px rgba(220, 38, 38, 0.3)',
         'dark-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2)',
         'dark-xl': '0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)',
+        'card-glow': '0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(6, 182, 212, 0.2)',
+      },
+      // Background gradients
+      backgroundImage: {
+        'hero-gradient': 'linear-gradient(135deg, #0a1e1e 0%, #0d1a1a 50%, #070b14 100%)',
+        'hero-glow': 'radial-gradient(circle at 30% 20%, rgba(6,182,212,0.15), transparent 40%)',
+        'christmas-gradient': 'linear-gradient(135deg, #1a0a0f 0%, #0f1a0f 50%, #070b14 100%)',
       }
     },
   },

@@ -375,9 +375,17 @@ export const HomePage: React.FC<HomePageProps> = ({
   ];
 
   return (
-    <div className="relative min-h-screen bg-[#070b14] text-slate-100 overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(59,130,246,0.12),transparent_35%),radial-gradient(circle_at_80%_0%,rgba(16,185,129,0.12),transparent_30%),radial-gradient(circle_at_50%_80%,rgba(236,72,153,0.1),transparent_45%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.04),transparent_35%,rgba(59,130,246,0.06)_65%,transparent)]" />
+    <div className={`relative min-h-screen text-slate-100 overflow-hidden ${
+      isChristmasMode
+        ? 'bg-gradient-to-b from-[#1a0a0f] via-[#0f1a0f] to-[#070b14]'
+        : 'bg-gradient-to-b from-[#0a1e1e] via-[#0d1a1a] to-[#070b14]'
+    }`}>
+      <div className={`pointer-events-none absolute inset-0 ${
+        isChristmasMode
+          ? 'bg-[radial-gradient(circle_at_30%_20%,rgba(220,38,38,0.15),transparent_40%),radial-gradient(circle_at_70%_40%,rgba(34,197,94,0.12),transparent_35%)]'
+          : 'bg-[radial-gradient(circle_at_30%_20%,rgba(6,182,212,0.15),transparent_40%),radial-gradient(circle_at_70%_40%,rgba(16,185,129,0.12),transparent_35%)]'
+      }`} />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.02),transparent_35%,rgba(6,182,212,0.04)_65%,transparent)]" />
 
       {/* Christmas Snow Effect */}
       {isChristmasMode && (
@@ -428,9 +436,9 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </div>
 
                 {/* Main Headline */}
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] text-white">
+                <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold leading-[1.08] text-white tracking-tight">
                   Turn Any Job Description Into Your
-                  <span className={`block mt-2 text-transparent bg-clip-text ${
+                  <span className={`block mt-3 text-transparent bg-clip-text ${
                     isChristmasMode
                       ? 'bg-gradient-to-r from-red-400 via-emerald-300 to-green-500'
                       : 'bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-400'
@@ -511,8 +519,8 @@ export const HomePage: React.FC<HomePageProps> = ({
 
                   {/* LEFT: Job Description Card */}
                   <motion.div
-                    whileHover={{ y: -4 }}
-                    className="relative bg-slate-900/90 border border-slate-700 rounded-2xl p-6 shadow-2xl backdrop-blur"
+                    whileHover={{ y: -8 }}
+                    className="relative bg-slate-900/90 border border-slate-700 rounded-2xl p-6 shadow-[0_20px_60px_rgba(0,0,0,0.4)] backdrop-blur-xl transition-all duration-300"
                   >
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
@@ -557,11 +565,11 @@ export const HomePage: React.FC<HomePageProps> = ({
 
                   {/* RIGHT: Optimized Resume Card */}
                   <motion.div
-                    whileHover={{ y: -4 }}
-                    className={`relative bg-slate-900/90 rounded-2xl p-6 shadow-2xl backdrop-blur border-2 ${
+                    whileHover={{ y: -8 }}
+                    className={`relative bg-slate-900/90 rounded-2xl p-6 backdrop-blur-xl border-2 transition-all duration-300 ${
                       isChristmasMode
-                        ? 'border-green-500/50 shadow-green-500/20'
-                        : 'border-emerald-500/50 shadow-emerald-500/20'
+                        ? 'border-green-500/50 shadow-[0_20px_60px_rgba(0,0,0,0.4),_0_0_60px_rgba(34,197,94,0.3)]'
+                        : 'border-emerald-500/50 shadow-[0_20px_60px_rgba(0,0,0,0.4),_0_0_60px_rgba(16,185,129,0.3)]'
                     }`}
                   >
                     {isChristmasMode && (
@@ -601,15 +609,35 @@ export const HomePage: React.FC<HomePageProps> = ({
                     {/* ATS Score Badge */}
                     <motion.div
                       initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
+                      animate={{
+                        scale: 1,
+                      }}
                       transition={{ delay: 1.5, type: "spring" }}
-                      className={`absolute -top-4 -right-4 rounded-full w-16 h-16 flex items-center justify-center font-bold text-lg shadow-lg text-white ${
+                      className={`absolute -top-4 -right-4 rounded-full w-16 h-16 flex items-center justify-center font-bold text-lg text-white ${
                         isChristmasMode
-                          ? 'bg-gradient-to-br from-red-500 to-green-600 shadow-green-500/50'
-                          : 'bg-emerald-500 shadow-emerald-500/50'
+                          ? 'bg-gradient-to-br from-red-500 to-green-600'
+                          : 'bg-emerald-500'
                       }`}
+                      style={{
+                        boxShadow: isChristmasMode
+                          ? '0 0 0 0 rgba(34,197,94,0.7), 0 10px 30px rgba(34,197,94,0.3)'
+                          : '0 0 0 0 rgba(16,185,129,0.7), 0 10px 30px rgba(16,185,129,0.3)',
+                      }}
                     >
-                      95%
+                      <motion.div
+                        animate={{
+                          boxShadow: isChristmasMode
+                            ? ['0 0 0 0 rgba(34,197,94,0.7)', '0 0 0 15px rgba(34,197,94,0)', '0 0 0 0 rgba(34,197,94,0)']
+                            : ['0 0 0 0 rgba(16,185,129,0.7)', '0 0 0 15px rgba(16,185,129,0)', '0 0 0 0 rgba(16,185,129,0)'],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          repeatDelay: 1,
+                        }}
+                        className="absolute inset-0 rounded-full"
+                      />
+                      <span className="relative z-10">95%</span>
                     </motion.div>
                   </motion.div>
                 </div>
