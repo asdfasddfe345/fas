@@ -1,4 +1,6 @@
 import React from 'react';
+import { useTheme } from '../../contexts/ThemeContext';
+import { AnimatedCard, GradientButton, FloatingParticles, ChristmasSnow } from '../ui';
 import {
   Mail,
   Phone,
@@ -143,7 +145,7 @@ export const Contact: React.FC = () => {
                     <p className="text-purple-600 dark:text-neon-purple-400 font-medium">Developer</p>
                   </div>
                 </div>
-                
+
                 <div className="md:w-2/3">
                   <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3">
                     One Developer, Complete Solution
