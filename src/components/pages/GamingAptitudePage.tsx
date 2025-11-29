@@ -16,6 +16,8 @@ import {
 import { gamingService } from '../../services/gamingService';
 import { CompanyWithProgress } from '../../types/gaming';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
+import { AnimatedCard, GradientButton, FloatingParticles, ChristmasSnow } from '../ui';
 
 interface GamingAptitudePageProps {
   isAuthenticated: boolean;
@@ -28,6 +30,7 @@ export const GamingAptitudePage: React.FC<GamingAptitudePageProps> = ({
 }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { isChristmasMode, colors } = useTheme();
 
   const [, setCompanies] = useState<CompanyWithProgress[]>([]); // kept for stats load; list not rendered
   const [loading, setLoading] = useState(true);

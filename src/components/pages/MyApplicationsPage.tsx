@@ -22,6 +22,8 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
+import { AnimatedCard, GradientButton, FloatingParticles, ChristmasSnow } from '../ui';
 import { ApplicationLog, ApplicationHistory } from '../../types/jobs';
 import { jobsService } from '../../services/jobsService';
 import { Card } from "../common/Card";
@@ -36,6 +38,7 @@ export const MyApplicationsPage: React.FC<MyApplicationsPageProps> = ({
   onShowAuth
 }) => {
   const navigate = useNavigate();
+  const { isChristmasMode, colors } = useTheme();
   const { user } = useAuth();
 
   const [history, setHistory] = useState<ApplicationHistory | null>(null);

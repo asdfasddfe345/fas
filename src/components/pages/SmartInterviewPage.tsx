@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Sparkles } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
+import { AnimatedCard, GradientButton, FloatingParticles, ChristmasSnow } from '../ui';
 import { SmartInterviewRoom } from '../interview/SmartInterviewRoom';
 import { InterviewSummaryReport } from '../interview/InterviewSummaryReport';
 import { InterviewTypeSelector } from '../interview/InterviewTypeSelector';
@@ -29,6 +31,7 @@ export const SmartInterviewPage: React.FC<SmartInterviewPageProps> = ({
 }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { isChristmasMode, colors } = useTheme();
 
   const [step, setStep] = useState<Step>('type_selection');
   const [config, setConfig] = useState<Partial<SmartInterviewConfig>>({});

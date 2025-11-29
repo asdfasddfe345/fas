@@ -6,12 +6,15 @@ import { adaptiveQuestionService } from '../../services/adaptiveQuestionService'
 import { adaptiveInterviewSessionService } from '../../services/adaptiveInterviewSessionService';
 import { AdaptiveInterviewRoom } from '../interview/AdaptiveInterviewRoom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
+import { AnimatedCard, GradientButton, FloatingParticles, ChristmasSnow } from '../ui';
 
 type Step = 'upload' | 'parsing' | 'configure' | 'generating' | 'interview' | 'completed';
 
 export const ResumeBasedInterviewPage: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { isChristmasMode, colors } = useTheme();
 
   const [step, setStep] = useState<Step>('upload');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);

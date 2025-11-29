@@ -14,7 +14,9 @@ import {
   FileText,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import { autoApplyOrchestratorService } from '../../services/autoApplyOrchestratorService';
+import { AnimatedCard, GradientButton, FloatingParticles, ChristmasSnow } from '../ui';
 
 interface Application {
   id: string;
@@ -40,6 +42,7 @@ interface Application {
 export const AutoAppliedJobsPage: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { isChristmasMode, colors } = useTheme();
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'submitted' | 'failed'>('all');

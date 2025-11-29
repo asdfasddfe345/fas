@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
+import { AnimatedCard, GradientButton, FloatingParticles, ChristmasSnow } from '../ui';
 import { InterviewSetupWizard } from '../interview/InterviewSetupWizard';
 import { MockInterviewRoom } from '../interview/MockInterviewRoom';
 import { InterviewSummaryReport } from '../interview/InterviewSummaryReport';
@@ -21,6 +23,7 @@ export const MockInterviewPage: React.FC<MockInterviewPageProps> = ({
 }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { isChristmasMode, colors } = useTheme();
   const [currentStage, setCurrentStage] = useState<FlowStage>('welcome');
   const [interviewConfig, setInterviewConfig] = useState<InterviewConfig | null>(null);
   const [selectedResume, setSelectedResume] = useState<UserResume | null>(null);
