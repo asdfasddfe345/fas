@@ -23,7 +23,9 @@ import {
   ChevronUp,
   Briefcase,
   Globe,
-  Gamepad2
+  Gamepad2,
+  AlertCircle,
+  X
 } from 'lucide-react';
 import { Card } from "../common/Card";
 // Assuming these imports exist in the user's project
@@ -89,6 +91,11 @@ export const HomePage: React.FC<HomePageProps> = ({
   const { user } = useAuth(); // ADDED: Access user from AuthContext
   const [globalResumesCreated, setGlobalResumesCreated] = useState<number>(60070);
   const [scoreChecksCompleted, setScoreChecksCompleted] = useState<number>(500070);
+  const [isChristmasMode, setIsChristmasMode] = useState(() => {
+    const month = new Date().getMonth();
+    return month === 11; // December
+  });
+  const [audienceTab, setAudienceTab] = useState<'students' | 'professionals'>('students');
 
   // Fetch global resumes created count on component mount
   useEffect(() => {
@@ -372,75 +379,273 @@ export const HomePage: React.FC<HomePageProps> = ({
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(59,130,246,0.12),transparent_35%),radial-gradient(circle_at_80%_0%,rgba(16,185,129,0.12),transparent_30%),radial-gradient(circle_at_50%_80%,rgba(236,72,153,0.1),transparent_45%)]" />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.04),transparent_35%,rgba(59,130,246,0.06)_65%,transparent)]" />
 
-      <div className="relative">
-        {/* Hero Section */}
-        <div className="container-responsive pt-12 pb-10 sm:pt-16 sm:pb-14">
-          <div className="max-w-5xl mx-auto text-center space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-slate-200 backdrop-blur">
-              <Sparkles className="w-4 h-4 text-emerald-200" />
-              <span>Night mode experience, built to match the new UI</span>
-            </div>
-
-            <div className="flex items-center justify-center gap-4">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden shadow-xl ring-2 ring-emerald-500/30">
-                <img
-                  src="https://res.cloudinary.com/dlkovvlud/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1751536902/a-modern-logo-design-featuring-primoboos_XhhkS8E_Q5iOwxbAXB4CqQ_HnpCsJn4S1yrhb826jmMDw_nmycqj.jpg"
-                  alt="PrimoBoost AI Logo"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="text-left">
-                <h1 className="text-[22px] sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
-                  PrimoBoost AI
-                </h1>
-                <p className="text-sm sm:text-base text-slate-400">Resume Intelligence</p>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h2 className="text-[28px] sm:text-4xl lg:text-5xl font-extrabold leading-tight">
-                Choose Your Resume Journey
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-400">
-                  Built for the night mode experience
-                </span>
-              </h2>
-
-              <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto">
-                Pick a starting point and flow through AI-powered tools that match the new dark interface. Optimise for a JD, check your ATS score, build from scratch, or warm up with interviews and games.
-              </p>
-            </div>
-
+      {/* Christmas Snow Effect */}
+      {isChristmasMode && (
+        <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
+          {[...Array(20)].map((_, i) => (
             <motion.div
-              className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center mt-2"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-            >
-              <motion.button
-                onClick={() => navigate('/optimizer')}
-                className="btn-primary h-12 px-6 sm:px-7 rounded-xl text-base sm:text-lg font-semibold gap-2 shadow-lg hover:shadow-xl hover:shadow-emerald-500/50 relative overflow-hidden group"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 400 }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/20 to-cyan-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <Sparkles className="w-5 h-5 relative z-10 group-hover:rotate-12 transition-transform duration-300" />
-                <span className="relative z-10">Start Optimizing</span>
-              </motion.button>
-              <motion.button
-                onClick={() => navigate('/jobs')}
-                className="btn-secondary h-12 px-6 sm:px-7 rounded-xl text-base sm:text-lg font-semibold gap-2 border border-white/10 bg-white/5 text-slate-100 hover:bg-white/10 hover:border-emerald-400/50 transition-all duration-300"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 400 }}
-              >
-                <Briefcase className="w-5 h-5" />
-                Explore Jobs
-              </motion.button>
-            </motion.div>
-          </div>
+              key={i}
+              className="absolute w-1 h-1 bg-white/60 rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `-10px`,
+              }}
+              animate={{
+                y: ['0vh', '110vh'],
+                opacity: [0, 0.8, 0],
+              }}
+              transition={{
+                duration: 8 + Math.random() * 4,
+                repeat: Infinity,
+                delay: Math.random() * 5,
+              }}
+            />
+          ))}
+        </div>
+      )}
 
-          <div className="mt-10 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="relative">
+        {/* Hero Section - Redesigned */}
+        <section className="relative min-h-[90vh] flex items-center">
+          <div className="container-responsive pt-20 pb-16 lg:pt-32 lg:pb-24">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+              {/* LEFT: Messaging */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7 }}
+                className="space-y-6 lg:space-y-8"
+              >
+                {/* Badge */}
+                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm backdrop-blur ${
+                  isChristmasMode
+                    ? 'bg-gradient-to-r from-red-500/10 to-green-500/10 border border-red-400/30 text-red-300'
+                    : 'bg-emerald-500/10 border border-emerald-400/30 text-emerald-300'
+                }`}>
+                  {isChristmasMode ? '🎄' : <Sparkles className="w-4 h-4" />}
+                  <span>{isChristmasMode ? 'Season\'s Greetings from PrimoBoost AI!' : 'AI-Powered Resume Intelligence'}</span>
+                </div>
+
+                {/* Main Headline */}
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] text-white">
+                  Turn Any Job Description Into Your
+                  <span className={`block mt-2 text-transparent bg-clip-text ${
+                    isChristmasMode
+                      ? 'bg-gradient-to-r from-red-400 via-emerald-300 to-green-500'
+                      : 'bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-400'
+                  }`}>
+                    Perfect Resume
+                  </span>
+                </h1>
+
+                {/* Subheadline */}
+                <p className="text-lg sm:text-xl text-slate-300 leading-relaxed max-w-xl">
+                  Upload your resume + paste a JD. Our AI instantly reorders sections,
+                  highlights missing keywords, and optimizes bullet points for ATS systems.
+                </p>
+
+                {/* CTAs */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <motion.button
+                    onClick={() => navigate('/optimizer')}
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                    className={`h-14 px-8 rounded-xl text-lg font-semibold gap-3 shadow-lg relative overflow-hidden group ${
+                      isChristmasMode
+                        ? 'bg-gradient-to-r from-red-500 via-emerald-500 to-green-600 hover:shadow-red-500/50'
+                        : 'bg-gradient-to-r from-emerald-500 to-cyan-500 hover:shadow-emerald-500/50'
+                    } text-white hover:shadow-xl`}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <Target className="w-5 h-5 relative z-10" />
+                    <span className="relative z-10">Generate JD-Based Resume</span>
+                  </motion.button>
+
+                  <motion.button
+                    onClick={() => navigate('/score-checker')}
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                    className={`h-14 px-8 rounded-xl text-lg font-semibold gap-3 backdrop-blur transition-all border text-slate-100 ${
+                      isChristmasMode
+                        ? 'border-red-500/40 bg-red-500/10 hover:bg-red-500/20 hover:border-red-400/60'
+                        : 'border-slate-700 bg-slate-800/50 hover:bg-slate-800 hover:border-emerald-400/50'
+                    }`}
+                  >
+                    <TrendingUp className="w-5 h-5" />
+                    Check My ATS Score
+                  </motion.button>
+                </div>
+
+                {/* Trust Indicators */}
+                <div className="flex flex-wrap items-center gap-6 pt-4 text-sm text-slate-400">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className={`w-5 h-5 ${isChristmasMode ? 'text-green-400' : 'text-emerald-400'}`} />
+                    <span>{globalResumesCreated.toLocaleString()}+ resumes optimized</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Star className="w-5 h-5 text-amber-400" />
+                    <span>4.9/5 rating</span>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* RIGHT: Resume vs JD Visual */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="relative lg:h-[600px] flex items-center justify-center"
+              >
+                {/* Background glow */}
+                <div className={`absolute inset-0 blur-3xl rounded-full ${
+                  isChristmasMode
+                    ? 'bg-gradient-to-br from-red-500/20 via-emerald-500/20 to-green-500/20'
+                    : 'bg-gradient-to-br from-emerald-500/20 to-cyan-500/20'
+                }`} />
+
+                {/* Main Container */}
+                <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl">
+
+                  {/* LEFT: Job Description Card */}
+                  <motion.div
+                    whileHover={{ y: -4 }}
+                    className="relative bg-slate-900/90 border border-slate-700 rounded-2xl p-6 shadow-2xl backdrop-blur"
+                  >
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                        <Briefcase className="w-5 h-5 text-blue-300" />
+                      </div>
+                      <div>
+                        <div className="text-sm font-semibold text-white">Job Description</div>
+                        <div className="text-xs text-slate-400">Senior Frontend Engineer</div>
+                      </div>
+                    </div>
+
+                    {/* Keyword highlights */}
+                    <div className="space-y-2 flex-wrap flex gap-2">
+                      {['React', 'TypeScript', 'Tailwind CSS', 'REST APIs', 'Git'].map((keyword, i) => (
+                        <motion.div
+                          key={keyword}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.5 + i * 0.1 }}
+                          className={`px-3 py-1.5 rounded-lg text-sm inline-block ${
+                            isChristmasMode
+                              ? 'bg-red-500/10 border border-red-400/30 text-red-300'
+                              : 'bg-emerald-500/10 border border-emerald-400/30 text-emerald-300'
+                          }`}
+                        >
+                          {keyword}
+                        </motion.div>
+                      ))}
+                    </div>
+
+                    {/* Animated arrow pointing right */}
+                    <motion.div
+                      animate={{ x: [0, 10, 0] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className={`absolute -right-8 top-1/2 -translate-y-1/2 hidden md:block ${
+                        isChristmasMode ? 'text-green-400' : 'text-emerald-400'
+                      }`}
+                    >
+                      <ArrowRight className="w-6 h-6" />
+                    </motion.div>
+                  </motion.div>
+
+                  {/* RIGHT: Optimized Resume Card */}
+                  <motion.div
+                    whileHover={{ y: -4 }}
+                    className={`relative bg-slate-900/90 rounded-2xl p-6 shadow-2xl backdrop-blur border-2 ${
+                      isChristmasMode
+                        ? 'border-green-500/50 shadow-green-500/20'
+                        : 'border-emerald-500/50 shadow-emerald-500/20'
+                    }`}
+                  >
+                    {isChristmasMode && (
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-500/10 via-transparent to-green-500/10 opacity-30" />
+                    )}
+                    <div className="flex items-center gap-3 mb-4 relative">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                        isChristmasMode ? 'bg-green-500/20' : 'bg-emerald-500/20'
+                      }`}>
+                        <FileText className={`w-5 h-5 ${isChristmasMode ? 'text-green-300' : 'text-emerald-300'}`} />
+                      </div>
+                      <div>
+                        <div className="text-sm font-semibold text-white">Your Resume</div>
+                        <div className="flex items-center gap-2">
+                          <div className={`text-xs ${isChristmasMode ? 'text-green-300' : 'text-emerald-300'}`}>Optimized</div>
+                          <div className={`w-2 h-2 rounded-full animate-pulse ${isChristmasMode ? 'bg-green-400' : 'bg-emerald-400'}`} />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Resume sections reordering animation */}
+                    <div className="space-y-2 relative">
+                      {['SKILLS', 'EXPERIENCE', 'PROJECTS', 'EDUCATION'].map((section, i) => (
+                        <motion.div
+                          key={section}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.8 + i * 0.15 }}
+                          className="flex items-center justify-between px-3 py-2 bg-slate-800/50 border border-slate-700 rounded-lg"
+                        >
+                          <span className="text-xs font-medium text-slate-300">{section}</span>
+                          <CheckCircle className={`w-4 h-4 ${isChristmasMode ? 'text-green-400' : 'text-emerald-400'}`} />
+                        </motion.div>
+                      ))}
+                    </div>
+
+                    {/* ATS Score Badge */}
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 1.5, type: "spring" }}
+                      className={`absolute -top-4 -right-4 rounded-full w-16 h-16 flex items-center justify-center font-bold text-lg shadow-lg text-white ${
+                        isChristmasMode
+                          ? 'bg-gradient-to-br from-red-500 to-green-600 shadow-green-500/50'
+                          : 'bg-emerald-500 shadow-emerald-500/50'
+                      }`}
+                    >
+                      95%
+                    </motion.div>
+                  </motion.div>
+                </div>
+
+                {/* Floating particles */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                  {[...Array(8)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className={`absolute w-1 h-1 rounded-full ${
+                        isChristmasMode ? 'bg-red-400' : 'bg-emerald-400'
+                      }`}
+                      style={{
+                        left: `${Math.random() * 100}%`,
+                        top: `${Math.random() * 100}%`,
+                      }}
+                      animate={{
+                        y: [-20, 20],
+                        opacity: [0, 1, 0],
+                      }}
+                      transition={{
+                        duration: 3 + Math.random() * 2,
+                        repeat: Infinity,
+                        delay: Math.random() * 2,
+                      }}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Stats Section */}
+        <div className="container-responsive pb-16">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
@@ -483,6 +688,232 @@ export const HomePage: React.FC<HomePageProps> = ({
             ))}
           </div>
         </div>
+
+        {/* Resume Elements Animation Section */}
+        <section className="relative py-20 bg-gradient-to-b from-[#070b14] to-[#0a0f1c]">
+          <div className="container-responsive">
+
+            {/* Section Header */}
+            <div className="text-center mb-16 space-y-4">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm ${
+                  isChristmasMode
+                    ? 'bg-gradient-to-r from-red-500/10 to-green-500/10 border border-red-400/30 text-red-300'
+                    : 'bg-cyan-500/10 border border-cyan-400/30 text-cyan-300'
+                }`}
+              >
+                <Zap className="w-4 h-4" />
+                <span>AI-Powered Section Reordering</span>
+              </motion.div>
+
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
+                We Automatically Reorder Resume Sections
+                <span className={`block mt-2 text-transparent bg-clip-text ${
+                  isChristmasMode
+                    ? 'bg-gradient-to-r from-red-300 via-emerald-300 to-green-400'
+                    : 'bg-gradient-to-r from-cyan-300 to-blue-400'
+                }`}>
+                  Following ATS Best Practices
+                </span>
+              </h2>
+
+              <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+                Based on your experience level and the job description, our AI rearranges
+                your resume sections to maximize ATS compatibility and recruiter impact.
+              </p>
+            </div>
+
+            {/* Before/After Comparison */}
+            <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+
+              {/* BEFORE Column */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 rounded-xl bg-red-500/20 flex items-center justify-center">
+                    <X className="w-6 h-6 text-red-400" />
+                  </div>
+                  <div>
+                    <div className="text-xl font-bold text-white">Before Optimization</div>
+                    <div className="text-sm text-red-400">Wrong section order</div>
+                  </div>
+                </div>
+
+                {[
+                  { title: 'EDUCATION', subtitle: 'BS Computer Science', wrong: true },
+                  { title: 'PROJECTS', subtitle: '3 projects listed', wrong: false },
+                  { title: 'SKILLS', subtitle: 'React, TypeScript...', wrong: true },
+                  { title: 'EXPERIENCE', subtitle: '2 years at Tech Co', wrong: false },
+                ].map((section, i) => (
+                  <motion.div
+                    key={`before-${i}`}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className={`relative p-4 rounded-xl border backdrop-blur ${
+                      section.wrong
+                        ? 'bg-red-500/5 border-red-500/30'
+                        : 'bg-slate-800/50 border-slate-700'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="font-semibold text-white">{section.title}</div>
+                        <div className="text-sm text-slate-400">{section.subtitle}</div>
+                      </div>
+                      {section.wrong && (
+                        <AlertCircle className="w-5 h-5 text-red-400" />
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* AFTER Column */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                    isChristmasMode ? 'bg-green-500/20' : 'bg-emerald-500/20'
+                  }`}>
+                    <CheckCircle className={`w-6 h-6 ${isChristmasMode ? 'text-green-400' : 'text-emerald-400'}`} />
+                  </div>
+                  <div>
+                    <div className="text-xl font-bold text-white">After Optimization</div>
+                    <div className={`text-sm ${isChristmasMode ? 'text-green-400' : 'text-emerald-400'}`}>ATS-compliant order</div>
+                  </div>
+                </div>
+
+                {[
+                  { title: 'SKILLS', subtitle: 'React, TypeScript...', highlight: true },
+                  { title: 'EXPERIENCE', subtitle: '2 years at Tech Co', highlight: true },
+                  { title: 'PROJECTS', subtitle: '3 projects listed', highlight: false },
+                  { title: 'EDUCATION', subtitle: 'BS Computer Science', highlight: false },
+                ].map((section, i) => (
+                  <motion.div
+                    key={`after-${i}`}
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 + i * 0.1 }}
+                    className={`relative p-4 rounded-xl border backdrop-blur ${
+                      section.highlight
+                        ? isChristmasMode
+                          ? 'bg-green-500/10 border-green-400/40 shadow-lg shadow-green-500/20'
+                          : 'bg-emerald-500/10 border-emerald-400/40 shadow-lg shadow-emerald-500/20'
+                        : 'bg-slate-800/50 border-slate-700'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="font-semibold text-white">{section.title}</div>
+                        <div className="text-sm text-slate-400">{section.subtitle}</div>
+                      </div>
+                      <CheckCircle className={`w-5 h-5 ${isChristmasMode ? 'text-green-400' : 'text-emerald-400'}`} />
+                    </div>
+
+                    {section.highlight && (
+                      <motion.div
+                        className={`absolute inset-0 bg-gradient-to-r rounded-xl ${
+                          isChristmasMode
+                            ? 'from-green-400/0 via-green-400/10 to-green-400/0'
+                            : 'from-emerald-400/0 via-emerald-400/10 to-emerald-400/0'
+                        }`}
+                        animate={{ x: ['-100%', '100%'] }}
+                        transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                      />
+                    )}
+                  </motion.div>
+                ))}
+
+                {/* ATS Score Indicator */}
+                <motion.div
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.8, type: "spring" }}
+                  className={`flex items-center gap-3 p-4 rounded-xl border ${
+                    isChristmasMode
+                      ? 'bg-green-500/10 border-green-400/40'
+                      : 'bg-emerald-500/10 border-emerald-400/40'
+                  }`}
+                >
+                  <TrendingUp className={`w-6 h-6 ${isChristmasMode ? 'text-green-400' : 'text-emerald-400'}`} />
+                  <div>
+                    <div className={`text-sm font-medium ${isChristmasMode ? 'text-green-300' : 'text-emerald-300'}`}>ATS Score Increased</div>
+                    <div className="text-2xl font-bold text-white">72% → 95%</div>
+                  </div>
+                </motion.div>
+              </div>
+
+            </div>
+
+            {/* Keyword Highlighting Demo */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 }}
+              className="mt-16 p-8 bg-slate-900/70 border border-slate-800 rounded-2xl shadow-2xl max-w-4xl mx-auto"
+            >
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-white mb-2">
+                  Keyword Matching & Highlighting
+                </h3>
+                <p className="text-slate-300">
+                  We identify missing keywords and highlight where to add them
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-3">
+                  <div className="text-sm font-semibold text-slate-400 uppercase tracking-wide">
+                    Missing Keywords
+                  </div>
+                  {['Responsive Design', 'CI/CD', 'Agile'].map((keyword, i) => (
+                    <motion.div
+                      key={keyword}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.7 + i * 0.1 }}
+                      className="px-4 py-2 bg-amber-500/10 border border-amber-400/30 rounded-lg text-amber-300 font-medium"
+                    >
+                      {keyword}
+                    </motion.div>
+                  ))}
+                </div>
+
+                <div className="space-y-3">
+                  <div className="text-sm font-semibold text-slate-400 uppercase tracking-wide">
+                    Matched Keywords
+                  </div>
+                  {['React', 'TypeScript', 'REST APIs'].map((keyword, i) => (
+                    <motion.div
+                      key={keyword}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.7 + i * 0.1 }}
+                      className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 border ${
+                        isChristmasMode
+                          ? 'bg-green-500/10 border-green-400/30 text-green-300'
+                          : 'bg-emerald-500/10 border-emerald-400/30 text-emerald-300'
+                      }`}
+                    >
+                      <CheckCircle className="w-4 h-4" />
+                      {keyword}
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+          </div>
+        </section>
+
       </div>
 
       {/* Main Features Section - Now with a consolidated frame */}
@@ -490,9 +921,9 @@ export const HomePage: React.FC<HomePageProps> = ({
         <div className="absolute inset-0 -z-10 bg-[#0a0f1c] rounded-[32px] blur-3xl opacity-80" />
         <div className="relative">
           <div className="text-center mb-8 space-y-2">
-            <p className="text-xs uppercase tracking-[0.28em] text-slate-500">Journeys</p>
-            <h3 className="text-2xl sm:text-3xl font-bold text-white">Choose Your Resume Journey</h3>
-            <p className="text-slate-400 max-w-3xl mx-auto">Night-mode friendly cards with soft glows and clear calls to action.</p>
+            <p className="text-xs uppercase tracking-[0.28em] text-slate-500">Comprehensive Tools</p>
+            <h3 className="text-2xl sm:text-3xl font-bold text-white">All-in-One Resume Intelligence Platform</h3>
+            <p className="text-slate-400 max-w-3xl mx-auto">From JD-based optimization to mock interviews, everything you need to land your dream job.</p>
           </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
           {features.map((feature, index) => {
