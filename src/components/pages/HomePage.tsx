@@ -410,34 +410,61 @@ export const HomePage: React.FC<HomePageProps> = ({
               </p>
             </div>
 
-            <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center mt-2">
-              <button
+            <motion.div
+              className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center mt-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
+              <motion.button
                 onClick={() => navigate('/optimizer')}
-                className="btn-primary h-12 px-6 sm:px-7 rounded-xl text-base sm:text-lg font-semibold gap-2 shadow-lg hover:shadow-xl"
+                className="btn-primary h-12 px-6 sm:px-7 rounded-xl text-base sm:text-lg font-semibold gap-2 shadow-lg hover:shadow-xl hover:shadow-emerald-500/50 relative overflow-hidden group"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 400 }}
               >
-                <Sparkles className="w-5 h-5" />
-                Start Optimizing
-              </button>
-              <button
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/20 to-cyan-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <Sparkles className="w-5 h-5 relative z-10 group-hover:rotate-12 transition-transform duration-300" />
+                <span className="relative z-10">Start Optimizing</span>
+              </motion.button>
+              <motion.button
                 onClick={() => navigate('/jobs')}
-                className="btn-secondary h-12 px-6 sm:px-7 rounded-xl text-base sm:text-lg font-semibold gap-2 border border-white/10 bg-white/5 text-slate-100 hover:bg-white/10"
+                className="btn-secondary h-12 px-6 sm:px-7 rounded-xl text-base sm:text-lg font-semibold gap-2 border border-white/10 bg-white/5 text-slate-100 hover:bg-white/10 hover:border-emerald-400/50 transition-all duration-300"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 400 }}
               >
                 <Briefcase className="w-5 h-5" />
                 Explore Jobs
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
           </div>
 
           <div className="mt-10 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {stats.map((stat) => (
-              <Card
+            {stats.map((stat, index) => (
+              <motion.div
                 key={stat.label}
-                padding="lg"
-                className="card-surface text-left flex items-start gap-3 sm:gap-4 bg-slate-900/70 border border-slate-800/70 shadow-[0_20px_80px_rgba(0,0,0,0.55)]"
+                initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.1,
+                  type: "spring",
+                  stiffness: 100
+                }}
               >
-                <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-b ${stat.accentBg} ${stat.accentRing} ring-1 ring-inset`}>
-                  {React.cloneElement(stat.icon, { className: `w-5 h-5 ${stat.accentText}` })}
-                </div>
+                <Card
+                  padding="lg"
+                  className="card-surface text-left flex items-start gap-3 sm:gap-4 bg-slate-900/70 border border-slate-800/70 shadow-[0_20px_80px_rgba(0,0,0,0.55)] hover:bg-slate-900/90 hover:border-emerald-500/30 hover:-translate-y-1 transition-all duration-300 group"
+                >
+                  <motion.div
+                    className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-b ${stat.accentBg} ${stat.accentRing} ring-1 ring-inset`}
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    {React.cloneElement(stat.icon, { className: `w-5 h-5 ${stat.accentText} transition-transform duration-300 group-hover:scale-110` })}
+                </motion.div>
                 <div className="space-y-1">
                   <div className="text-xl font-bold text-white leading-tight">
                     {stat.number}
@@ -452,6 +479,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   )}
                 </div>
               </Card>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -489,18 +517,30 @@ export const HomePage: React.FC<HomePageProps> = ({
                 key={feature.id}
                 onClick={() => handleFeatureClick(feature)}
                 padding="lg"
-                className={`relative overflow-hidden text-left transition-all duration-300 ${accent.bg} ${accent.border} ${accent.shadow} backdrop-blur-xl ${
-                  feature.requiresAuth && !isAuthenticated ? 'opacity-60 cursor-not-allowed' : 'hover:-translate-y-1 hover:shadow-2xl'
-                } ${feature.highlight ? 'ring-2 ring-emerald-400/60 ring-offset-0 overflow-visible' : ''}`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                className={`group relative overflow-hidden text-left transition-all duration-500 ${accent.bg} ${accent.border} ${accent.shadow} backdrop-blur-xl ${
+                  feature.requiresAuth && !isAuthenticated ? 'opacity-60 cursor-not-allowed' : 'hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-500/20'
+                } ${feature.highlight ? 'ring-2 ring-emerald-400/60 ring-offset-0 overflow-visible animate-pulse-slow' : ''}`}
+                initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.45, delay: index * 0.05 }}
-                whileHover={feature.requiresAuth && !isAuthenticated ? undefined : { y: -4, scale: 1.01 }}
-                whileTap={{ scale: 0.995 }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.08,
+                  type: "spring",
+                  stiffness: 100
+                }}
+                whileHover={feature.requiresAuth && !isAuthenticated ? undefined : {
+                  y: -8,
+                  scale: 1.02,
+                  transition: { duration: 0.3, type: "spring", stiffness: 300 }
+                }}
+                whileTap={{ scale: 0.98 }}
               >
-                <div className={`absolute inset-0 ${accent.overlay}`} />
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 opacity-10" />
+                <div className={`absolute inset-0 ${accent.overlay} transition-opacity duration-300 group-hover:opacity-80`} />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 opacity-10 group-hover:opacity-20 transition-opacity duration-300" />
+                {feature.highlight && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-emerald-400/10 to-transparent shimmer-effect" />
+                )}
                 {feature.tag && (
                   <div className="absolute -top-3 left-4">
                     <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold shadow-lg ${accent.badge}`}>
@@ -510,34 +550,44 @@ export const HomePage: React.FC<HomePageProps> = ({
                   </div>
                 )}
                 <div className="relative flex items-start gap-4">
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${accent.iconBg} ${accent.iconColor}`}>
-                    {React.cloneElement(feature.icon, { className: `w-6 h-6 ${accent.iconColor}` })}
-                  </div>
+                  <motion.div
+                    className={`flex h-12 w-12 items-center justify-center rounded-2xl ${accent.iconBg} ${accent.iconColor} transition-all duration-300`}
+                    whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.1 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    {React.cloneElement(feature.icon, {
+                      className: `w-6 h-6 ${accent.iconColor} transition-transform duration-300 group-hover:scale-110`
+                    })}
+                  </motion.div>
                   <div className="flex-1 space-y-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-[16px] font-semibold text-white leading-snug">
+                      <span className="text-[16px] font-semibold text-white leading-snug group-hover:text-emerald-300 transition-colors duration-300">
                         {feature.title}
                       </span>
                       {feature.requiresAuth && !isAuthenticated && (
-                        <span className="text-[11px] uppercase tracking-wide text-amber-200 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-200/30">
+                        <span className="text-[11px] uppercase tracking-wide text-amber-200 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-200/30 animate-pulse">
                           Sign in
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-slate-300 leading-relaxed">
+                    <p className="text-sm text-slate-300 leading-relaxed group-hover:text-slate-200 transition-colors duration-300">
                       {feature.description}
                     </p>
                     {isAuthenticated && userSubscription && remainingCount !== null && remainingCount > 0 && (
-                      <p className="text-xs font-medium text-emerald-200">
+                      <p className="text-xs font-medium text-emerald-200 animate-pulse">
                         {remainingCount} remaining
                       </p>
                     )}
                   </div>
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-full ${accent.arrow} border border-white/10 transition-transform duration-300 group-hover:translate-x-1`}>
+                  <motion.div
+                    className={`flex h-10 w-10 items-center justify-center rounded-full ${accent.arrow} border border-white/10`}
+                    whileHover={{ x: 4, scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
                     <ArrowRight
-                      className={`w-4 h-4 ${feature.requiresAuth && !isAuthenticated ? 'opacity-60' : ''}`}
+                      className={`w-4 h-4 transition-all duration-300 group-hover:text-emerald-300 ${feature.requiresAuth && !isAuthenticated ? 'opacity-60' : ''}`}
                     />
-                  </div>
+                  </motion.div>
                 </div>
               </Card>
             );
@@ -725,7 +775,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             <h3 className="text-2xl sm:text-3xl font-extrabold mb-3 bg-gradient-to-r from-pink-400 via-fuchsia-400 to-purple-400 bg-clip-text text-transparent">
               Powered by Advanced AI Technology
             </h3>
-            <p className="text-base sm:text-lg text-blue-100/90 dark:text-gray-300">
+            <p className="text-base sm:text-lg text-slate-300">
               Our intelligent system understands ATS requirements, job market trends, and recruiter preferences to give you the competitive edge.
             </p>
           </motion.div>
@@ -746,7 +796,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </div>
               </div>
               <h4 className="font-semibold mb-2 text-lg text-yellow-300">AI-Powered Analysis</h4>
-              <p className="text-blue-100/90 dark:text-gray-300 leading-relaxed">Advanced algorithms analyze and optimize your resume</p>
+              <p className="text-slate-300 leading-relaxed">Advanced algorithms analyze and optimize your resume</p>
             </motion.div>
 
             {/* Card 2 */}
@@ -764,7 +814,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </div>
               </div>
               <h4 className="font-semibold mb-2 text-lg text-emerald-300">ATS Optimization</h4>
-              <p className="text-blue-100/90 dark:text-gray-300 leading-relaxed">Ensure your resume passes all screening systems</p>
+              <p className="text-slate-300 leading-relaxed">Ensure your resume passes all screening systems</p>
             </motion.div>
 
             {/* Card 3 */}
@@ -782,7 +832,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </div>
               </div>
               <h4 className="font-semibold mb-2 text-lg text-fuchsia-300">Expert Approved</h4>
-              <p className="text-blue-100/90 dark:text-gray-300 leading-relaxed">Formats trusted by recruiters worldwide</p>
+              <p className="text-slate-300 leading-relaxed">Formats trusted by recruiters worldwide</p>
             </motion.div>
           </div>
         </div>

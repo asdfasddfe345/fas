@@ -4,7 +4,6 @@ import { FileText, User, LogOut, Menu, X, Loader2, Sparkles, Shield, Settings } 
 import { useAuth } from '../contexts/AuthContext';
 import { AuthModal } from './auth/AuthModal';
 import { DeviceManagement } from './security/DeviceManagement';
-import { ThemeToggle } from './ThemeToggle';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 interface HeaderProps {
@@ -107,7 +106,6 @@ export const Header: React.FC<HeaderProps> = ({
 
             {/* Desktop Navigation and Auth */}
             <div className="hidden lg:flex items-center space-x-4">
-              <ThemeToggle />
               {children}
 
               {isAuthenticated && user ? (
@@ -202,7 +200,6 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Mobile Menu Button */}
             <div className="lg:hidden">
               <div className="flex items-center space-x-2">
-                <ThemeToggle />
                 <button
                   onClick={onMobileMenuToggle}
                   className="min-w-touch min-h-touch p-2 text-secondary-600 hover:text-secondary-900 hover:bg-secondary-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-neon-cyan-500 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-dark-200"
