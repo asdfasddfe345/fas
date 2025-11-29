@@ -28,7 +28,9 @@ import {
 import { jobsService } from '../../services/jobsService';
 import { JobListing } from '../../types/jobs';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import { ApplicationMethodModal } from '../modals/ApplicationMethodModal';
+import { AnimatedCard, GradientButton, FloatingParticles, ChristmasSnow } from '../ui';
 
 interface JobDetailsPageProps {
   onShowAuth: (callback?: () => void) => void;
@@ -38,6 +40,7 @@ export const JobDetailsPageNew: React.FC<JobDetailsPageProps> = ({ onShowAuth })
   const { jobId } = useParams<{ jobId: string }>();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
+  const { isChristmasMode, colors } = useTheme();
 
   const [job, setJob] = useState<JobListing | null>(null);
   const [loading, setLoading] = useState(true);

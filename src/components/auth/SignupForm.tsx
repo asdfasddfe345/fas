@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { User, Mail, Lock, Eye, EyeOff, UserPlus, AlertCircle, CheckCircle, Loader2, Shield, ArrowRight } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import { SignupCredentials } from '../../types/auth';
 
 const signupSchema = z.object({
@@ -37,6 +38,7 @@ interface SignupFormProps {
 
 export const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin, onSignupSuccess }) => {
   const { signup } = useAuth();
+  const { isChristmasMode } = useTheme();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

@@ -1,8 +1,10 @@
 // src/components/ResumeOptimizer.tsx
-import React, { useState, useEffect, useCallback } from 'react'; // Import useCallback
+import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { FileText, AlertCircle, Plus, Sparkles, ArrowLeft, X, Send, Briefcase, Building2, Target, Zap, CheckCircle } from 'lucide-react';
+import { AnimatedCard, GradientButton, FloatingParticles, ChristmasSnow } from './ui';
 import { ResumePreview } from './ResumePreview';
 import { ResumeExportSettings } from './ResumeExportSettings';
 import { ProjectAnalysisModal } from './ProjectAnalysisModal';
@@ -76,6 +78,7 @@ const ResumeOptimizer: React.FC<ResumeOptimizerProps> = ({
   setToolProcessTrigger
 }) => {
   const { user, revalidateUserSession } = useAuth();
+  const { isChristmasMode, colors } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -919,8 +922,25 @@ const checkForMissingSections = useCallback((resumeData: ResumeData): string[] =
     return <LoadingAnimation message={loadingMessage} submessage={submessage} />;
   }
   return (
-   <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 pb-16 dark:from-dark-50 dark:to-dark-200 transition-colors duration-300">
-      <div className="container-responsive py-8">
+   <div className={`min-h-screen relative overflow-hidden pb-16 ${
+      isChristmasMode
+        ? 'bg-gradient-to-b from-[#1a0a0f] via-[#0f1a0f] to-[#070b14]'
+        : 'bg-gradient-to-b from-[#0a1e1e] via-[#0d1a1a] to-[#070b14]'
+    }`}>
+      {/* Radial Glow Overlay */}
+      <div className={`pointer-events-none absolute inset-0 ${
+        isChristmasMode
+          ? 'bg-[radial-gradient(ellipse_at_top,rgba(220,38,38,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(34,197,94,0.15),transparent_50%)]'
+          : 'bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.15),transparent_50%)]'
+      }`} />
+
+      {/* Floating Particles */}
+      <FloatingParticles count={15} />
+
+      {/* Christmas Snow */}
+      {isChristmasMode && <ChristmasSnow count={40} />}
+
+      <div className="container-responsive py-8 relative z-10">
         {!optimizedResume ? (
           <>
             <button
